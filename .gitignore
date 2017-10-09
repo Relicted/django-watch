@@ -99,7 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
-
+__pycache__
 .idea
 node_modules/
 tutorial/media/
@@ -111,5 +111,5 @@ accounts/migrations/*
 !videos/migrations/__init__.py
 db.sqlite3
 locale/
-tutorial/__pychache__
+tutorial/__pycache__
 .gitignore
