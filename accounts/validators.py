@@ -1,4 +1,3 @@
-from registration import validators
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
@@ -6,7 +5,7 @@ CUSTOM_RESERVED_NAMES = [
     '',
 ]
 
-VALIDATORS = validators.DEFAULT_RESERVED_NAMES + CUSTOM_RESERVED_NAMES
+VALIDATORS = CUSTOM_RESERVED_NAMES
 
 class UserRegValid(object):
     """
