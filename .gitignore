@@ -112,3 +112,4 @@ accounts/migrations/*
 db.sqlite3
 locale/
 tutorial/__pychache__
+.gitignore
