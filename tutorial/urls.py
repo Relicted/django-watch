@@ -39,8 +39,10 @@ urlpatterns = [
 
 ]
 
+urlpatterns += + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
     urlpatterns += [
         url(r'^devtest/', include('devtest.urls', namespace='test')),
 
-    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ]
