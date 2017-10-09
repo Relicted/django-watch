@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load video_extras %}
+{% block content %}
+<div class="page-content">
+{% if object_list %}
+    {% for video in object_list %}
+    <div>
+        <a href="{% url 'video:video_detail' pk=video.id %}">{{ video.original_title }}</a>
+    </div>
+    {% endfor %}
+
+    {% if object_list.has_other_pages %}
+    <nav class="pagi-nav text-center clearfix">
+        <ul class="pagination">
+            {% if object_list.has_previous %}
+            <li class=""><a href="?page={{ object_list.previous_page_number }}&q={{ request.GET.q }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            {% else %}
+            <li class="disabled"><a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            {% endif %}
+
+            {% for page in object_list.paginator.page_range %}
+            <li class="{% if object_list.number == page %}active{% endif %}"><a href="?page={{ page }}&q={{ request.GET.q }}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if object_list.has_next %}
+            <li><a href="?page={{ object_list.next_page_number }}&q={{ request.GET.q }}"><span aria-hidden="true">»</span></a></li>
+            {% else %}
+            <li class="disabled"><a href=""><span aria-hidden="true">»</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+        <div>Поиск не дал результатов!</div>
+    {% endif %}
+</div>
+{% endblock %}

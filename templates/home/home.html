@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="page-content home-page">
+    <section id="last-add-serials">
+        <div class="last-item-wrapper">
+             <div class="section-title col-xs-12">
+                <div class="animated bounceInRight go">
+                    <a href="{% url 'video:series' %}">{% trans 'Serials' %}</a>
+                </div>
+            </div>
+            <div class="title-bar">{% trans 'Last Updates' %}
+            </div>
+
+            {% for i in serials %}
+            <div class="video-item">
+                <img class="wide-poster img-responsive" src="{{ i.wide_poster.url }}" alt="">
+                <div class="bck2"></div>
+                <div class="bck">
+                    <i class="fa fa-cogs video-settings" aria-hidden="true" data-toggle="modal" data-target="#item_{{ i.pk }}"></i>
+                    <a class="white-title" href="{% url 'video:video_detail' pk=i.pk %}">{{ i.original_title }}</a>
+                </div>
+            </div>
+            <div id="item_{{ i.pk }}" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title original-title">{{ i.original_title }}</h4>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+    {% if not user.is_authenticated %}
+    {% include 'snippets/login_modal.html' %}
+    {% endif %}
+{% endblock %}

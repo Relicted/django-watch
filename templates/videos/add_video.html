@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+    <div class="page-content">
+        <div class="col-md-4">
+            <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        {{ field.error }}
+                        {% if field.label %}<label for="id_{{ field.name }}">{{ field.label }}</label>{% endif %}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="shots">
+                    {% for f in shots %}
+                        <label for="id_{{ f.name }}" class="btn btn-success">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ f.name }}
+                        </label>
+                        <div id="shots-uploaded"></div>
+                        <input type="file" id="id_{{ f.name }}" name="{{ f.name }}" multiple>
+                    {% endfor %}
+
+                    <div class="files-info"></div>
+                    <div id="shot-progressbar" class="progress">
+                        <div id="shots-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        0%
+                        </div>
+                    </div>
+                </div>
+                <div class="season-controls">
+                    <button type="button" class="btn btn-primary" add-data="season">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        {% trans 'Season' %}
+                    </button>
+                    <div class="seasons-switch"></div>
+                </div>
+                <div class="btn-section">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-default">Leave</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $('button[add-data="season"]').on('click', function () {
+            let num = $('.season-item').length + 1;
+            let elem = `<a class="season-item">${ num }</a>
+                        <input type="hidden" name="season" value=${num}>`;
+            $('.seasons-switch').append(elem);
+
+        });
+
+
+
+        $(document).ready(function() {
+            $('#id_shots').on('change', function() {
+                let files, i, data;
+                data = new FormData();
+
+                $.each($(this)[0].files, function(i, file) {
+                    data.append('files', file);
+                });
+
+                files = $(this)[0].files.length;
+                $('#shots-uploaded').text('').append(` ${files} files added`);
+                $('#shots-progress').attr('aria-valuenow', 0).css('width', 0 + '%').text(0 + '%');
+
+                $.ajax({
+                    xhr : function() {
+                        let xhr = new window.XMLHttpRequest();
+
+                        xhr.upload.addEventListener('progress', function(e) {
+
+                            if (e.lengthComputable) {
+
+                                let percent = Math.round((e.loaded / e.total) * 100);
+
+                                $('#shots-progress').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+
+                            }
+
+                        });
+
+                        return xhr;
+                    },
+                    type: 'POST',
+                    method: 'POST',
+                    url : '{% url "video:screen_upload" %}',
+                    data : data,
+                    processData : false,
+                    contentType : false,
+                    success : function(data) {
+                        if (data.errors) {
+                            alert(data.errors)
+                        }
+                        else {
+                            $('#shots-progress').css('background', 'green');
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}

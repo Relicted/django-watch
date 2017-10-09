@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-content" style="height: 800px">
+        <form id="file-upload" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+
+            <button type="submit">Sbmt</button>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                0%
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+
+	$('#file-upload').on('submit', function(event) {
+
+		event.preventDefault();
+
+		let formData = new FormData($('#file-upload')[0]);
+		$.ajax({
+			xhr : function() {
+				let xhr = new window.XMLHttpRequest();
+
+				xhr.upload.addEventListener('progress', function(e) {
+
+					if (e.lengthComputable) {
+
+						console.log('Percentage Uploaded: ' + Math.round((e.loaded / e.total) * 100));
+
+						let percent = Math.round((e.loaded / e.total) * 100);
+
+						$('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+
+					}
+
+				});
+
+				return xhr;
+			},
+			type : 'POST',
+			url : '{% url "try:try" %}',
+			data : formData,
+			processData : false,
+			contentType : false,
+			success : function() {
+			}
+		});
+
+	});
+
+});
+    </script>
+{% endblock %}

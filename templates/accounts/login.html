@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n static%}
+
+
+{% block content %}
+<div class="page-content">
+    <div class="login-form logo">
+        <img src="{% static 'media/images/lion.png' %}" class="img-responsive login-logo" alt="">
+    </div>
+    <div class="login-form welcome">
+        Welcome to Watchlist!
+    </div>
+    <div class="login-form">
+    <form name="login-modal" method="post">{% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <span id="{{ field.name }}-errors" class="errorlist"></span>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn login-btn">Log in</button>
+
+    </form>
+
+    <p><a href="{% url 'account:registration' %}">Create</a> new account!</p>
+    <p>Forgot your password? <a href="{% url 'account:auth_password_reset' %}">Restore it!</a>!</p>
+</div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+
+    </script>
+
+{% endblock %}
