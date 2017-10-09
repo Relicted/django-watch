@@ -37,8 +37,9 @@ urlpatterns = [
     url(r'^video/', include('videos.urls', namespace='video')),
 
 
-
-    url(r'^trysomething/', include('trysomething.urls', namespace='try')),
-
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^trysomething/', include('trysomething.urls', namespace='try')),
+    ]
