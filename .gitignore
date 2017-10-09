@@ -101,6 +101,7 @@ ENV/
 .mypy_cache/
 __pycache__
 .idea
+devtest/
 node_modules/
 tutorial/media/
 tutorial/local_settings.py
