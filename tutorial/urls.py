@@ -37,9 +37,10 @@ urlpatterns = [
     url(r'^video/', include('videos.urls', namespace='video')),
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 if settings.DEBUG:
     urlpatterns += [
-        url(r'^trysomething/', include('trysomething.urls', namespace='try')),
-    ]
+        url(r'^devtest/', include('devtest.urls', namespace='test')),
+
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
