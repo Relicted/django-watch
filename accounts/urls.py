@@ -15,8 +15,4 @@ urlpatterns = [
 
     url(r'^activation/', activation_view, name='activation'),
 
-    url(r'^', include('registration.backends.hmac.urls')),
-    #SEARCH
-
-
 ]
