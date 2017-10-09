@@ -25,7 +25,7 @@ SECRET_KEY = 'q_&4i5vow=rq-@cknw-3^vt_30(p2j6o9#(oc3pvp0hhekh24s'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'watchlist.pythonanywhere.com'
+    'relicted.pythonanywhere.com'
 ]
 
 
