@@ -171,4 +171,7 @@ VIDEO_SCREENSHOTS = 'video_screenshot'
 
 VIDEO_FILES = 'video_files'
 
-from .local_settings import *
+try:
+    from local_settings import *
+except ImportError:
+    pass
