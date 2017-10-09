@@ -45,7 +45,7 @@ def add_screen(request):
                 fn, fext = os.path.splitext(value.name)
                 fn = num
                 screenshot_handler(value, user=user, fn=fn, fext=fext)
-        return JsonResponse({data})
+        return JsonResponse(data)
 
 
 class AddVideo(FormView):
