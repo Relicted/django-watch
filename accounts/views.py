@@ -1,4 +1,5 @@
 from django.shortcuts import render, reverse
+from django.urls import resolve
 from django.views.generic import FormView, TemplateView
 from django.http import HttpResponseRedirect, JsonResponse
 from .forms import (
@@ -7,6 +8,7 @@ from .forms import (
                     )
 from django.contrib.auth.views import LoginView, logout
 from django.db.models import Q
+from tutorial import settings
 from django.utils.translation import ugettext as _
 
 
@@ -14,8 +16,9 @@ class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
     form_class = CustomAuthenticationForm
 
-    def get_success_url(self):
-        return reverse('home')
+    def get_context_data(self, **kwargs):
+        context = super(CustomLoginView, self).get_context_data(**kwargs)
+        return context
 
     def form_invalid(self, form):
         response = super(CustomLoginView, self).form_invalid(form)
@@ -55,12 +58,12 @@ class CustomRegistrationView(FormView):
             request, args, **kwargs)
 
     def get_success_url(self):
-        return reverse('account:activation')
+        return reverse('home')
 
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.save()
-        super(CustomRegistrationView, self).form_valid(form)
+        return super(CustomRegistrationView, self).form_valid(form)
 
 
 def activation_view(request):

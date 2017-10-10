@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('form[name="login-modal"]').on('submit', function (e) {
         e.preventDefault();
         $.ajax({
-            url: "/account/login/",
+            url: $(this).attr('send-to'),
             type: 'POST',
             data: {
                 username: $('input[name="username"]').val(),
@@ -74,10 +74,11 @@ $(document).ready(function () {
 
 
 
-    $('.serial-list .bck').mouseenter(function () {
-        var item = $(this).parent();
-        var id = $(this).attr('id').replace('video-', '');
-        var timer = setTimeout(function(){after2(id, item)}, 700);
+    $('.serial-list .video-item').mouseenter(function () {
+        let item, id, timer;
+        item = $(this);
+        id = $(this).attr('id').replace('video-', '');
+        timer = setTimeout(function(){getItemDetail(id, item)}, 700);
         $(this).mouseleave(function () {
             clearTimeout(timer);
             $('#item-fast-info').removeAttr('style')
@@ -88,9 +89,9 @@ $(document).ready(function () {
         })
     });
 
-    function after2(id, item){
+    function getItemDetail(id, item){
         $.ajax({
-            url: `/video/item/${id}/`,
+            url: item.attr('send-to'),
             type: 'GET',
             data: {'id': id},
             success: function (data) {
@@ -113,8 +114,8 @@ $(document).ready(function () {
 
                 $("#item-fast-info").attr('style', style);
                 $('.fast-description').text(data.response['description']);
-                $('.like-btn.up span').text(data.response['like']);
-                $('.like-btn.down span').text(data.response['dislike']);
+                $('.video-like-btn.up span').text(data.response['like']);
+                $('.video-like-btn.down span').text(data.response['dislike']);
 
                 $('#item-fast-info').mouseenter(function () {
 
@@ -127,6 +128,18 @@ $(document).ready(function () {
         });
     }
 
+
+    $('.video-like-btn').on('click', function () {
+        let data = {};
+        if ($(this).hasClass('up')) {
+            data['data'] = 'like'
+       }  else { data['data'] = 'dislike'}
+       $.ajax({
+           type: 'POST',
+           data: data,
+           url: $(this).attr('send-to')
+       })
+    });
 
 
 });

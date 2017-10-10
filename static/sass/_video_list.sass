@@ -12,6 +12,15 @@
   min-height: 180px
   border-radius: 5px
 
+.video-item-wrap-home
+  width: 100%
+  padding-left: 15px
+  padding-right: 15px
+  margin-top: 10px
+  .video-item
+    min-width: 360px
+
+
 .serial-list
   padding-left: 15px
   padding-right: 15px
@@ -22,6 +31,9 @@
   width: 100%
   text-align: center
 
+
+.video-item-wrap
+  text-align: left
 
 #item-fast-info
   position: absolute
@@ -45,13 +57,18 @@
   -moz-box-shadow: inset 0px 0px 1px #2d2d2d
   box-shadow: inset 0px 0px 1px #2d2d2d
 
-
+.title-bar
+  width: 100%
+  padding-left: 30px
+  font-size: 16px
+  text-transform: uppercase
+  font-family: Montserrat, serif
 
 .fast-description
   padding: 10px
   float: left
   text-align: left
-  font-size: 12px
+  font-size: 11px
   height: 250px
 
 .fast-rating
@@ -61,14 +78,14 @@
 #item-fast-info > div > div.fast-rating.col-xs-12 > div
   padding: 7px 0
 
-.fast-rating .like-btn.down i
+.fast-rating .video-like-btn.down i
   color: #e65069
 
-.fast-rating .like-btn.up i
+.fast-rating .video-like-btn.up i
   color: #64b362
 
-.fast-rating .like-btn.down:hover i,
-.fast-rating .like-btn.up:hover i
+.fast-rating .video-like-btn.down:hover i,
+.fast-rating .video-like-btn.up:hover i
   color: #fff
 
 
@@ -115,6 +132,7 @@
 .bck > .play-icon > img
   display: inline-block
   height: 0
+
   transition: .3s
 
 

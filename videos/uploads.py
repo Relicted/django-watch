@@ -29,7 +29,7 @@ def poster_upload(instance, filename):
     fn = str(instance).replace(' ', '').lower()
     return '/'.join([
         settings.VIDEO_POSTERS,
-        '%s%s' % (fn, fext)])
+        '%s-%s%s' % (fn, str(uuid.uuid4()), fext)])
 
 
 def wide_poster_upload(instance, filename):
@@ -38,7 +38,7 @@ def wide_poster_upload(instance, filename):
     fn = str(instance).replace(' ', '').lower()
     return '/'.join([
         settings.VIDEO_POSTERS_WIDE,
-        '%s%s' % (fn, fext)])
+        '%s-%s%s' % (fn, str(uuid.uuid4()), fext)])
 
 
 def screenshot_handler(file, user=None, fn=None, fext=None):

@@ -1,27 +1,27 @@
 import os
 import shutil
+from django.core.urlresolvers import resolve
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
-from videos import validators
-from .models import Video, VideoScreenshot, Season, VideoFile
+from django.core.files import File
+from django.utils.translation import ugettext as _
 from django.forms.models import model_to_dict
 from django.views.generic import DetailView, ListView, CreateView, FormView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, HttpResponseRedirect
+from django.forms import formset_factory
+# create your views here.
+from .models import Video, VideoScreenshot, Season, VideoFile
 from .forms import (
     CreateVideoItemForm,
     AddScreenshots,
     AddVideoFileForm
 )
-from django.forms import formset_factory
-# create your views here.
 from tutorial import settings
-from django.core.files import File
-from django.utils.translation import ugettext as _
 from .uploads import screenshot_handler
-
 
 @csrf_exempt
 def add_screen(request):
@@ -48,6 +48,7 @@ def add_screen(request):
         return JsonResponse(data)
 
 
+@method_decorator(login_required, name='dispatch')
 class AddVideo(FormView):
     form_class = CreateVideoItemForm
     template_name = 'videos/add_video.html'
@@ -55,6 +56,7 @@ class AddVideo(FormView):
     def get_context_data(self, **kwargs):
         context = super(AddVideo, self).get_context_data(**kwargs)
         context['shots'] = AddScreenshots()
+        print(Video.objects.all())
         return context
 
     def form_valid(self, form):
@@ -89,17 +91,17 @@ class AddVideo(FormView):
         return reverse('video:video_detail', kwargs={'pk': video.id})
 
 
-class VideoView(ListView):
+class VideoList(ListView):
     model = Video
     template_name = 'videos/video_list.html'
 
     def get(self, request, *args, **kwargs):
         q = [x for x in self.request.path.split('/') if x][-1]
         self.video = Video.objects.filter(content__iexact=q)
-        return super(VideoView, self).get(request, *args, **kwargs)
+        return super(VideoList, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(VideoView, self).get_context_data(**kwargs)
+        context = super(VideoList, self).get_context_data(**kwargs)
         paginator = Paginator(self.video, 10)
 
         page = self.request.GET.get('page')
@@ -120,6 +122,9 @@ class VideoDetail(DetailView):
     model = Video
     template_name = 'videos/video_detail.html'
 
+    def post(self, request, *args, **kwargs):
+        pass
+
     def get(self, request, *args, **kwargs):
         exclude = ['poster', 'wide_poster']
         if request.is_ajax():
@@ -133,13 +138,4 @@ class VideoDetail(DetailView):
             return JsonResponse(data)
         return super(VideoDetail, self).get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        context = super(VideoDetail, self).get_context_data(**kwargs)
-
-        context['user_like'] = Video.objects.filter(
-            like__username__iexact=user
-        ).exists()
-
-        return context
 

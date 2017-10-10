@@ -13,6 +13,7 @@ from django.db.models import Q
 
 
 class CustomAuthenticationForm(AuthenticationForm):
+
     username = UsernameField(
         max_length=300,
         label='',
@@ -87,6 +88,9 @@ class CustomRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super(CustomRegistrationForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         data = self.cleaned_data

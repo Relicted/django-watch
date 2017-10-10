@@ -6,103 +6,65 @@
 {% endblock %}
 {% block content %}
     <div class="page-content">
-        <div class="col-xs-12">
-            <div class="info col-xs-12 col-sm-7 col-md-12">
-                <p class="original-title">{{ object.original_title }}</p>
-                <p class="rus-title"><small>{{ object.rus_title }}</small></p>
+        <div class="">
+            <div class="info col-xs-12">
+                <p class="video-title">{{ object.original_title }}</p>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 clearfix">
-                <div class="col-xs-12 col-sm-5 col-md-12">
+            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 clearfix">
+                <div class="poster-grp">
                     <div class="poster">
                         <a href="{{ object.poster.url }}" class="picture-link">
                             <img src="{{ object.poster.url }}" class="poster-img img-responsive detail-poster" alt="">
                         </a>
                     </div>
                     <div class="btn-group like-grp clearfix">
-                        <button class="btn btn-default like-btn up">
+                        <button class="btn btn-default video-like-btn up">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             <span>{{ object.like.count }}</span>
                         </button>
-                        <button class="btn btn-default like-btn down">
+                        <button class="btn btn-default video-like-btn down" send-to="{{ object.get_absolute_url }}">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                             <span>{{ object.dislike.count }}</span>
                         </button>
-
                     </div>
-                    <div class="info-line">
-                        <h4 class="info-title">{% trans 'Ratings' %}:</h4>
-                        <div class="info-content stats">
-                            <strong class="value"></strong>
-                            <span class="key">IMDB</span>
-                        </div>
+
+                    <div class="item-info">
+                        <span class="item-key col-xs-4">{% trans 'Ratings' %}:</span>
+                        <span class="item-value col-xs-8"></span>
                     </div>
                     <hr>
-                </div>
-
-                <div class="item-info col-sm-7 col-md-12">
-                    <div class="info-line">
-                        <h4 class="info-title">{% trans 'Genres' %}:</h4>
-                        <div class="info-content">
-                           <!--GENRES-->
-                        </div>
+                    <div class="item-info">
+                        <span class="item-key col-xs-4">{% trans 'Genres' %}:</span>
+                        <span class="item-value col-xs-8"></span>
                     </div>
-                    <div class="info-line">
-                        <h4 class="info-title">{% trans 'Year' %}:</h4>
-                        <div class="info-content">
-
-                        </div>
+                     <div class="item-info">
+                        <span class="item-key col-xs-4">{% trans 'Year' %}:</span>
+                        <span class="item-value col-xs-8"></span>
                     </div>
-                    <div class="info-line">
-                        <h4 class="info-title">{% trans 'Country' %}:</h4>
-                        <div class="info-content">
-
-                        </div>
+                     <div class="item-info">
+                        <span class="item-key col-xs-4">{% trans 'Runtime' %}:</span>
+                        <span class="item-value col-xs-8"></span>
                     </div>
-                    <div class="info-line">
-                        <h4 class="info-title">{% trans 'Time' %}:</h4>
-                        <div class="info-content">
-
-                        </div>
+                     <div class="item-info">
+                        <span class="item-key col-xs-4">{% trans 'Countries' %}:</span>
+                        <span class="item-value col-xs-8"></span>
                     </div>
+
                 </div>
             </div>
 
-
-            <div class="screenshots col-xs-12 col-md-8">
-                <div class="item-wrap">
+            <div class="screenshots col-xs-12 col-sm-7 col-md-8">
                 {% for screen in object.shots.all %}
                     <a href="{{ screen.shot.url }}" class="item picture-link">
                         <img src="{{ screen.shot.url }}" alt="" class="detail-small-screen img-responsive">
                     </a>
                 {% endfor %}
-                </div>
-                <hr style="margin-top: 30px">
+                <hr>
             </div>
 
-            <div class="description-div col-md-8">
-                <p class="description-section">{% trans 'Story' %}:</p>
-                <p>{{ object.description }}</p>
-            </div>
-
-            <div class="file-section col-md-8">
-                <div class="seasons-switch">
-                    <div class="season-item">{% trans 'Season' %}:</div>
-                    {% for s in object.seasons.all %}
-                        <a class="season-item">{{ s.number }}</a>
-                    {% endfor %}
-                </div>
-            <span class="alert-danger">MAKE SEASON-BLOCKS SHOW ON CLICK</span>
-                {% for s in object.seasons.all %}
-                <div class="col-md-8 season-block">
-                    <span>Season {{ s.number }} files</span>
-                    {% for f in s.files.all %}
-                        <div id="files-{{ s.number }}">
-                            <a href="{{ f.file.url }}">{{ f.name }}</a>
-                        </div>
-
-                    {% endfor %}
-                </div>
-                {% endfor %}
+            <div class="description-div col-sm-7 col-md-8">
+                <p class="item-key">{% trans 'Story' %}:</p>
+                <p class="item-value">{{ object.description }}</p>
             </div>
         </div>
     </div>

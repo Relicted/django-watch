@@ -11,8 +11,8 @@
         Welcome to Watchlist!
     </div>
     <div class="login-form">
-    <form name="login-modal" method="post">{% csrf_token %}
-
+    <form method="post">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
         {% for field in form %}
         <div class="form-group">
             <span id="{{ field.name }}-errors" class="errorlist"></span>

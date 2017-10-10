@@ -6,7 +6,9 @@ from .views import (CustomLoginView,
 
 urlpatterns = [
     #MAIN PAGE
-    url(r'^login/$', CustomLoginView.as_view(), name='login'),
+    url(r'^login/$',
+        CustomLoginView.as_view(),
+        name='login'),
     url(r'^logout/$', logout_view, name='logout'),
 
     url(r'^register/$',

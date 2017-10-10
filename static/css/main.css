@@ -1,17 +1,13 @@
 .detail-poster {
   border-radius: 3px; }
 
-.original-title {
+.video-title {
   font-size: 26px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-family: 'Saira', sans-serif;
   font-weight: bold;
   margin: 0; }
-
-.rus-title {
-  margin: 0;
-  font-size: 18px;
-  font-style: italic;
-  color: #a2a2a5; }
 
 .detail-small-screen {
   max-width: 150px;
@@ -24,30 +20,24 @@
   float: left; }
 
 .info {
-  padding-left: 30px; }
+  padding-left: 15px; }
 
 .screenshots {
-  -webkit-overflow-scrolling: touch;
-  margin-top: 20px;
-  float: left; }
+  text-align: center;
+  margin-top: 20px; }
 
-.item-wrap {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-  flex-wrap: wrap; }
+.screenshots hr {
+  margin-top: 20px; }
 
-.picture-link,
-.picture-link:focus {
-  outline: none; }
+.screenshots .item {
+  display: inline-block; }
 
-span.like-btn {
+span.video-like-btn {
   color: white !important;
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 1.42857143;
   text-align: center;
@@ -64,110 +54,75 @@ span.like-btn {
   border: 1px solid transparent;
   border-radius: 4px; }
 
-span.like-btn.up {
+span.video-like-btn.up {
   background: #64b362; }
 
-span.like-btn.down {
+span.video-like-btn.down {
   background: #e65069; }
 
 .poster {
-  margin-top: 20px; }
+  margin-top: 20px;
+  max-width: 410px;
+  display: inline-block; }
+
+.poster-grp {
+  text-align: center; }
+  .poster-grp:after {
+    display: table;
+    content: '';
+    clear: both; }
+
+.item-info {
+  margin-top: 10px;
+  padding: 0;
+  display: inline-block;
+  max-width: 410px;
+  width: 100%;
+  text-align: left; }
 
 .like-grp {
   width: 100%;
-  margin-top: 20px; }
+  margin-top: 5px;
+  max-width: 410px; }
 
-.like-btn {
+.video-like-btn {
   width: 48%;
   transition: background 0.2s; }
 
-.like-btn.up {
+.video-like-btn.up {
   float: left;
   margin-right: 8px; }
-  .like-btn.up:hover {
+  .video-like-btn.up:hover {
     color: #fff;
     background: #64b362; }
 
-.like-btn.down {
+.video-like-btn.down {
   float: right; }
-  .like-btn.down:hover {
+  .video-like-btn.down:hover {
     color: #fff;
     background: #e65069; }
 
-.info-line {
-  display: block;
-  padding-left: 15px;
-  font-size: 16px; }
-
-.info-line .info-content .key {
-  font-size: 14px;
-  color: darkgray; }
-
-.info-line .info-content .value {
-  font-size: 16px; }
-
-.info-title {
-  float: left;
-  width: 80px;
-  font-size: 15px;
-  font-family: "Roboto", sans-serif; }
-
-.info-content {
-  line-height: 40px;
-  margin-left: 90px; }
-
 hr {
-  border-top: 1px solid #ddd;
-  margin-top: 0;
-  margin-bottom: 10px; }
-
-.item-info {
-  padding-left: 15px;
-  float: left; }
-
-.info-link {
-  color: #30c2f2;
-  border-radius: 3px;
+  margin-top: 5px;
   margin-bottom: 0px;
-  margin-right: 4px;
-  text-align: center;
-  display: inline-block;
-  font-size: 15px; }
-  .info-link:hover, .info-link:focus {
-    text-decoration: none; }
-
-.info-line:after {
-  clear: both;
-  display: block;
-  content: " "; }
+  border-top: 1px solid #ddd; }
 
 .description-div {
   float: left;
   margin-top: 20px; }
 
-.description-section {
-  font-family: "Roboto", sans-serif;
-  font-size: 20px; }
+.item-key {
+  font-family: "Saira", sans-serif;
+  font-size: 14px;
+  font-weight: bold; }
 
-.file-section {
-  margin-top: 25px; }
-
-.seasons-switch {
-  user-select: none; }
-
-.season-item {
+.item-value {
+  font-size: 13px;
   display: inline-block; }
 
-a.season-item {
-  background: rgba(40, 36, 43, 0.83);
-  border-radius: 4px;
-  color: white;
-  padding: 5px 10px; }
-
-div.season-item {
-  background: transparent !important;
-  color: black;
-  font-size: 18px; }
+.description-div .item-key {
+  font-size: 17px;
+  font-weight: normal; }
 
 .serial-list .video-poster {
   height: 300px;
@@ -182,6 +137,14 @@ div.season-item {
   min-height: 180px;
   border-radius: 5px; }
 
+.video-item-wrap-home {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 10px; }
+  .video-item-wrap-home .video-item {
+    min-width: 360px; }
+
 .serial-list {
   padding-left: 15px;
   padding-right: 15px;
@@ -191,6 +154,9 @@ div.season-item {
 .pagi-nav {
   width: 100%;
   text-align: center; }
+
+.video-item-wrap {
+  text-align: left; }
 
 #item-fast-info {
   position: absolute;
@@ -214,11 +180,18 @@ div.season-item {
   -moz-box-shadow: inset 0px 0px 1px #2d2d2d;
   box-shadow: inset 0px 0px 1px #2d2d2d; }
 
+.title-bar {
+  width: 100%;
+  padding-left: 30px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-family: Montserrat, serif; }
+
 .fast-description {
   padding: 10px;
   float: left;
   text-align: left;
-  font-size: 12px;
+  font-size: 11px;
   height: 250px; }
 
 .fast-rating {
@@ -228,14 +201,14 @@ div.season-item {
 #item-fast-info > div > div.fast-rating.col-xs-12 > div {
   padding: 7px 0; }
 
-.fast-rating .like-btn.down i {
+.fast-rating .video-like-btn.down i {
   color: #e65069; }
 
-.fast-rating .like-btn.up i {
+.fast-rating .video-like-btn.up i {
   color: #64b362; }
 
-.fast-rating .like-btn.down:hover i,
-.fast-rating .like-btn.up:hover i {
+.fast-rating .video-like-btn.down:hover i,
+.fast-rating .video-like-btn.up:hover i {
   color: #fff; }
 
 .bck {
@@ -365,11 +338,6 @@ label[for='id_shots'] {
   display: inline-block;
   width: 100px; }
 
-.files-info {
-  display: inline-block;
-  width: 200px;
-  height: 25px; }
-
 .progress {
   transition: 0s; }
 
@@ -410,7 +378,7 @@ ul {
 
 .navbar {
   margin: 0px;
-  background: rgba(0, 0, 0, 0.53); }
+  border-radius: 0px; }
 
 .reg-log {
   float: right; }
@@ -554,20 +522,12 @@ ul {
 #last-add-cinema {
   margin-top: 20px; }
 
-.title-bar {
-  width: 100%;
-  padding-left: 30px;
-  color: rgba(236, 59, 193, 0.82);
-  font-size: 16px;
-  text-transform: uppercase;
-  font-family: Montserrat, serif; }
-
 @media (max-width: 767px) {
   .info {
     text-align: center; }
   .like-grp {
     margin-top: 5px; }
-  .like-btn.up {
+  .video-like-btn.up {
     margin-right: 5px; }
   .info-line {
     margin-bottom: 10px; }
