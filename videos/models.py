@@ -11,7 +11,7 @@ from django.urls import reverse
 import sys
 # ============================================== #
 from tutorial import settings
-from.validators import POSTER_SIZE
+from .validators import POSTER_SIZE
 from tutorial.models import (
     BaseModel,
     BaseModelLike)
@@ -23,18 +23,26 @@ from .uploads import (
 from tutorial.storage import OverwriteStorage
 
 
-
 class Video(BaseModelLike):
-    content_types = (
+    CONTENT_TYPES = (
         ('movies', _('Movies')),
         ('series', _('TV Show')),
         ('animation', _('Animation')),
         ('animationseries', _('Animation Series')),
     )
+    SERIES_STATUS = (
+        (1, _("On-Going")),
+        (2, _("Finished")),
+        (3, _("Closed")),
+    )
 
     content = models.CharField(
-        choices=content_types,
+        choices=CONTENT_TYPES,
         max_length=50,
+        default='')
+    series_status = models.PositiveSmallIntegerField(
+        choices=SERIES_STATUS,
+        blank=True,
         null=True)
     original_title = models.CharField(
         max_length=150)
@@ -43,10 +51,10 @@ class Video(BaseModelLike):
         storage=OverwriteStorage())
     wide_poster = models.ImageField(
         upload_to=wide_poster_upload,
-        storage=OverwriteStorage(),)
+        storage=OverwriteStorage(), )
     description = models.TextField(
         max_length=2000,
-        verbose_name='About',)
+        verbose_name='About', )
 
     class Meta:
         ordering = ['original_title']
@@ -57,6 +65,11 @@ class Video(BaseModelLike):
         super(Video, self).__init__(*args, **kwargs)
         self.__original_poster = self.poster
         self.__original_wide_poster = self.wide_poster
+
+        # if self.content != 'series' or self.content != 'animationseries':
+        #     self.__serial_status = None
+
+
 
     def __str__(self):
         return self.original_title
@@ -104,7 +117,7 @@ class Video(BaseModelLike):
             wide_output.seek(0)
 
             self.wide_poster = InMemoryUploadedFile(
-                wide_output,'ImageField',
+                wide_output, 'ImageField',
                 "%s.jpg" % self.wide_poster.name.split('.')[0],
                 'image/jpeg', sys.getsizeof(wide_output), None)
 
@@ -113,7 +126,7 @@ class Video(BaseModelLike):
 
 
 @receiver(pre_delete, sender=Video)
-def posters_delete(sender, instance, **kwargs):
+def posters_delete(instance, **kwargs):
     """DELETE POSTERS IF VIDEO OBJECT ITEM WAS DELETED"""
     instance.poster.delete(False)
     instance.wide_poster.delete(False)
@@ -139,7 +152,6 @@ class VideoScreenshot(BaseModel):
         shot.save(shot_output, format='JPEG', quality=80)
         shot_output.seek(0)
 
-
         self.shot = InMemoryUploadedFile(
             shot_output, 'ImageField',
             "%s.jpg" % self.shot.name.split('.')[0],
@@ -152,7 +164,7 @@ class VideoScreenshot(BaseModel):
 
 
 @receiver(pre_delete, sender=VideoScreenshot)
-def screenshots_delete(sender, instance, **kwargs):
+def screenshots_delete(instance, **kwargs):
     """DELETE SHOT FILE IF OBJECT WAS DELETED"""
     instance.shot.delete(False)
 
@@ -195,6 +207,41 @@ class VideoFile(BaseModel):
 
 
 @receiver(pre_delete, sender=VideoFile)
-def videofile_delete(sender, instance, **kwargs):
+def videofile_delete(instance, **kwargs):
     """DELETE VIDEO FILES IF VIDEO ITEM WAS DELETED"""
     instance.file.delete(False)
+
+
+class WatchingList(models.Model):
+    STATUSES = (
+        (1, _("Watching")),
+        (2, _("Completed")),
+        (3, _("Plan to watch")),
+        (4, _("On-hold")),
+        (5, _("Dropped")),
+        (6, _("Waiting for")),
+    )
+    SCORES = (
+        (1, _('1 - Appalling')),
+        (2, _('2 - Horrible')),
+        (3, _('3 - Very Bad')),
+        (4, _('4 - Bad')),
+        (5, _('5 - Average')),
+        (6, _('6 - Fine')),
+        (7, _('7 - Good')),
+        (8, _('8 - Very Good')),
+        (9, _('9 - Great')),
+        (10, _('10 - Masterpiece')),
+    )
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True,
+        related_name='watchlist')
+    video = models.ForeignKey(
+        Video, on_delete=models.CASCADE, related_name='watchlist')
+    score = models.PositiveSmallIntegerField(choices=SCORES)
+    status = models.PositiveSmallIntegerField(choices=STATUSES)
+    is_favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.score)

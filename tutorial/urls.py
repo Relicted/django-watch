@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #HOMEPAGE SEARCH
     url(r'^$', Home.as_view(), name='home'),
-    url(r'^search/$', SearchResult.as_view(), name='search-result'),
+    url(r'^search/', SearchResult.as_view(), name='search-result'),
     # REGISTRATION, LOGIN, ETC
 
     url(r'^accounts/', include('accounts.urls', namespace='account')),
@@ -21,6 +21,10 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += [
-        url(r'^devtest/', include('devtest.urls', namespace='test')),
-    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    try:
+        urlpatterns += [
+            url(r'^devtest/', include('devtest.urls', namespace='test')),
+        ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    except:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

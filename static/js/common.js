@@ -1,5 +1,22 @@
 $(document).ready(function () {
 
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+    return cookieValue;
+    }
+
+    let csrftoken = getCookie('csrftoken');
 
     //MAGNIFIC  SCREANSHOTS AND POSTER
     $('.item').magnificPopup({
@@ -128,20 +145,77 @@ $(document).ready(function () {
         });
     }
 
+    //APPEND SEASONS IN ADD VIDEO VIEW
+    $('button[add-data="season"]').on('click', function () {
+    let num = $('.season-item').length + 1;
+    let elem = `<a class="season-item">${ num }</a>
+                <input type="hidden" name="season" value=${num}>`;
+    $('.seasons-switch').append(elem);
 
-    $('.video-like-btn').on('click', function () {
-        let data = {};
-        if ($(this).hasClass('up')) {
-            data['data'] = 'like'
-       }  else { data['data'] = 'dislike'}
-       $.ajax({
-           type: 'POST',
-           data: data,
-           url: $(this).attr('send-to')
-       })
     });
 
 
+    //AJAX SCREEN UPLOAD IN ADD VIDEO VIEW
+    $('#id_shots').on('change', function() {
+        let files, data;
+        data = new FormData();
+
+        data.append('csrfmiddlewaretoken', csrftoken);
+        $.each($(this)[0].files, function(i, file) {
+            data.append('files', file);
+        });
+
+        files = $(this)[0].files.length;
+        $('#shots-uploaded').text('').append(` ${files} files added`);
+        $('#shots-progress').attr('aria-valuenow', 0).css('width', 0 + '%').text(0 + '%');
+
+        $.ajax({
+            xhr : function() {
+                let xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                        let percent = Math.round((e.loaded / e.total) * 100);
+                        $('#shots-progress').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+                    }
+                });
+                return xhr;
+            },
+            type: 'POST',
+            method: 'POST',
+            url : $('label[for="id_shots"]').attr('send-to'),
+            data : data,
+            processData : false,
+            contentType : false,
+            success : function(data) {
+                if (data.errors) {
+                    alert(data.errors)
+                }
+                else {
+                    $('#shots-progress').css('background', 'green');
+                }
+            }
+        })
+    });
+
+    $('.btn.user-menu').on('click', function () {
+        $('#my-videos').fadeToggle(200)
+    });
+
+
+
+    $('.select').on('click','.placeholder',function(){
+  let parent = $(this).closest('.select');
+  if ( ! parent.hasClass('is-open')){
+    parent.addClass('is-open');
+    $('.select.is-open').not(parent).removeClass('is-open');
+  }else{
+    parent.removeClass('is-open');
+  }
+}).on('click','ul>li',function(){
+  let parent = $(this).closest('.select');
+  parent.removeClass('is-open').find('.placeholder').text( $(this).text() );
+  parent.find('input[type=hidden]').attr('value', $(this).attr('data-value') );
+});
 });
 
 

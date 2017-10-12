@@ -14,16 +14,38 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, HttpResponseRedirect
 from django.forms import formset_factory
 # create your views here.
-from .models import Video, VideoScreenshot, Season, VideoFile
+from .models import Video, VideoScreenshot, Season, VideoFile, WatchingList
 from .forms import (
     CreateVideoItemForm,
     AddScreenshots,
-    AddVideoFileForm
+    AddVideoFileForm,
+    AddVideoToList
 )
 from tutorial import settings
 from .uploads import screenshot_handler
 
-@csrf_exempt
+
+def watching_now(request, pk):
+    video = Video.objects.get(pk=pk)
+    user = request.user
+    score = request.POST.get('score')
+    status = request.POST.get('status')
+    is_favorite = request.POST.get('is_favorite', False)
+    if request.method == 'POST':
+        list_item, created = WatchingList.objects.update_or_create(
+            defaults={
+                'score': score,
+                'status': status,
+                'is_favorite': bool(is_favorite)
+            },
+            user=user,
+            video=video
+        )
+        return HttpResponseRedirect(reverse('video:video_detail', kwargs={'pk':pk}))
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
+
 def add_screen(request):
     if not request.is_ajax():
         return HttpResponseRedirect(reverse('video:add'))
@@ -56,7 +78,6 @@ class AddVideo(FormView):
     def get_context_data(self, **kwargs):
         context = super(AddVideo, self).get_context_data(**kwargs)
         context['shots'] = AddScreenshots()
-        print(Video.objects.all())
         return context
 
     def form_valid(self, form):
@@ -94,9 +115,11 @@ class AddVideo(FormView):
 class VideoList(ListView):
     model = Video
     template_name = 'videos/video_list.html'
+    video = None
 
     def get(self, request, *args, **kwargs):
         q = [x for x in self.request.path.split('/') if x][-1]
+        print(q)
         self.video = Video.objects.filter(content__iexact=q)
         return super(VideoList, self).get(request, *args, **kwargs)
 
@@ -121,13 +144,39 @@ class VideoList(ListView):
 class VideoDetail(DetailView):
     model = Video
     template_name = 'videos/video_detail.html'
+    watchlists = None
 
-    def post(self, request, *args, **kwargs):
-        pass
+    def get_context_data(self, **kwargs):
+        context = super(VideoDetail, self).get_context_data(**kwargs)
+        self.watchlists = WatchingList.objects.filter(
+            video=self.object
+        )
+        if self.watchlists:
+            votes = self.watchlists.count()
+            context['score'] = round(sum(
+                [x.score for x in self.watchlists]) / votes, 1)
+            context['votes'] = votes
+
+        try:
+            context['in_list'] = self.watchlists.get(
+                user=self.request.user,
+                video=self.object
+            )
+        except (WatchingList.DoesNotExist,
+                AttributeError,
+                TypeError):
+            pass
+
+        if self.request.user.is_authenticated():
+            context['list_add_form'] = AddVideoToList(
+                instance=WatchingList.objects.filter(
+                    user=self.request.user,
+                    video=self.object).first())
+        return context
 
     def get(self, request, *args, **kwargs):
-        exclude = ['poster', 'wide_poster']
         if request.is_ajax():
+            exclude = ['poster', 'wide_poster']
             obj = Video.objects.get(pk=request.GET.get('id'))
             response = model_to_dict(obj, exclude=exclude)
             response['like'] = obj.like.count()

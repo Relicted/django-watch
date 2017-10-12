@@ -8,4 +8,9 @@ $(document).ready(function () {
        $(this).attr('data-toggle', 'modal');
        $(this).attr('data-target', '#login-modal');
     });
+
+    $('.user-menu').each(function () {
+       $(this).attr('data-toggle', 'modal');
+       $(this).attr('data-target', '#login-modal');
+    });
 });

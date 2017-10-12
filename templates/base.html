@@ -27,8 +27,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Video" %} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{% url 'video:series' %}">{% trans "Series" %}</a></li>
                                 <li><a href="{% url 'video:movie' %}">{% trans "Movies" %}</a></li>
+                                <li><a href="{% url 'video:series' %}">{% trans "Series" %}</a></li>
                                 <li><a href="{% url 'video:animation' %}">{% trans "Animation" %}</a></li>
                                 <li><a href="{% url 'video:animationseries' %}">{% trans "Aniseries" %}</a></li>
                             </ul>
@@ -69,5 +69,6 @@
     <script src="{% static 'js/login_modal.js' %}"></script>
 {% endif %}
 {% block scripts%} {% endblock %}
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 </body>
 </html>

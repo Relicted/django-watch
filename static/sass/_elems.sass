@@ -1,0 +1,78 @@
+
+.select
+  position: relative
+  display: block
+  margin: 0 auto
+  width: 100%
+  max-width: 325px
+  color: #030204
+  vertical-align: middle
+  text-align: left
+  user-select: none
+  -webkit-touch-callout: none
+
+  .placeholder
+    position: relative
+    display: block
+    background-color: #393d41
+    z-index: 1
+    padding: 1em
+    border-radius: 2px
+    cursor: pointer
+
+    &:hover
+      background: darken(#393d41,2%)
+
+
+    &:after
+      position: absolute
+      right: 1em
+      top: 50%
+      transform: translateY(-50%)
+      font-family: 'FontAwesome'
+      content: '\f078'
+      z-index: 10
+
+
+
+  &.is-open
+    .placeholder:after
+      content: '\f077'
+
+    ul
+      display: block
+
+
+  &.select--white
+    .placeholder
+      background: #fff
+      color: #999
+      &:hover
+        background: darken(#fff,2%)
+
+
+  ul
+    display: none
+    position: absolute
+    overflow: hidden
+    overflow-y: auto
+    width: 100%
+    background: #fff
+    border-radius: 2px
+    top: 100%
+    left: 0
+    list-style: none
+    margin: 5px 0 0 0
+    padding: 0
+    z-index: 100
+    max-height: 120px
+    li
+      display: block
+      text-align: left
+      padding: 0.8em 1em 0.8em 1em
+      color: #999
+      cursor: pointer
+
+      &:hover
+        background: #4ebbf0
+        color: #fff

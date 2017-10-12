@@ -15,7 +15,7 @@
                 {% endfor %}
                 <div class="shots">
                     {% for f in shots %}
-                        <label for="id_{{ f.name }}" class="btn btn-success">
+                        <label for="id_{{ f.name }}" send-to="{% url "video:screen_upload" %}" class="btn btn-success">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{ f.name }}
                         </label>
@@ -50,63 +50,6 @@
 
 {% block scripts %}
     <script>
-        $('button[add-data="season"]').on('click', function () {
-            let num = $('.season-item').length + 1;
-            let elem = `<a class="season-item">${ num }</a>
-                        <input type="hidden" name="season" value=${num}>`;
-            $('.seasons-switch').append(elem);
 
-        });
-
-
-
-        $(document).ready(function() {
-            $('#id_shots').on('change', function() {
-                let files, i, data;
-                data = new FormData();
-
-                $.each($(this)[0].files, function(i, file) {
-                    data.append('files', file);
-                });
-
-                files = $(this)[0].files.length;
-                $('#shots-uploaded').text('').append(` ${files} files added`);
-                $('#shots-progress').attr('aria-valuenow', 0).css('width', 0 + '%').text(0 + '%');
-
-                $.ajax({
-                    xhr : function() {
-                        let xhr = new window.XMLHttpRequest();
-
-                        xhr.upload.addEventListener('progress', function(e) {
-
-                            if (e.lengthComputable) {
-
-                                let percent = Math.round((e.loaded / e.total) * 100);
-
-                                $('#shots-progress').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
-
-                            }
-
-                        });
-
-                        return xhr;
-                    },
-                    type: 'POST',
-                    method: 'POST',
-                    url : '{% url "video:screen_upload" %}',
-                    data : data,
-                    processData : false,
-                    contentType : false,
-                    success : function(data) {
-                        if (data.errors) {
-                            alert(data.errors)
-                        }
-                        else {
-                            $('#shots-progress').css('background', 'green');
-                        }
-                    }
-                })
-            });
-        });
     </script>
 {% endblock %}

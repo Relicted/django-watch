@@ -8,8 +8,10 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
-        context['serials'] = Video.objects.filter(content='series').order_by('-updated_at')[:6]
-        context['movies'] = Video.objects.filter(content='movies').order_by('-updated_at')[:6]
+        context['serials'] = Video.objects.filter(
+            content='series').order_by('-updated_at')[:6]
+        context['movies'] = Video.objects.filter(
+            content='movies').order_by('-updated_at')[:6]
         return context
 
 

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Video, VideoScreenshot, VideoFile
+from .models import Video, VideoScreenshot, VideoFile, WatchingList
 from django.utils.translation import ugettext as _
 
 
@@ -8,7 +8,11 @@ class CreateVideoItemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateVideoItemForm, self).__init__(*args, **kwargs)
         self.fields['content'].widget.attrs = {
-            'class': 'btn btn-default'
+            'class': 'select select--white'
+        }
+        self.fields['series_status'].widget.attrs = {
+            'class': 'select select--white',
+            'required': False
         }
 
     original_title = forms.CharField(
@@ -62,3 +66,16 @@ class AddVideoFileForm(forms.ModelForm):
     class Meta:
         model = VideoFile
         fields = []
+
+
+class AddVideoToList(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AddVideoToList, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'select select--white'
+            })
+
+    class Meta:
+        model = WatchingList
+        exclude = ['user', 'video']

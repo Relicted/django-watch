@@ -3,11 +3,13 @@ from .models import (
     Video,
     VideoScreenshot,
     VideoFile,
-    Season
+    Season,
+    WatchingList
 )
 
 # Register your models here.
 
+admin.site.register(WatchingList)
 
 
 class VideoSeasonTabularInline(admin.TabularInline):
