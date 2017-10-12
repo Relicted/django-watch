@@ -202,20 +202,29 @@ $(document).ready(function () {
     });
 
 
-
+ //SELECT STYLE
     $('.select').on('click','.placeholder',function(){
-  let parent = $(this).closest('.select');
-  if ( ! parent.hasClass('is-open')){
-    parent.addClass('is-open');
-    $('.select.is-open').not(parent).removeClass('is-open');
-  }else{
-    parent.removeClass('is-open');
-  }
-}).on('click','ul>li',function(){
-  let parent = $(this).closest('.select');
-  parent.removeClass('is-open').find('.placeholder').text( $(this).text() );
-  parent.find('input[type=hidden]').attr('value', $(this).attr('data-value') );
-});
+        let parent = $(this).closest('.select');
+        if ( ! parent.hasClass('is-open')){
+            parent.addClass('is-open');
+            $('.select.is-open').not(parent).removeClass('is-open');
+        } else{
+            parent.removeClass('is-open');
+        }
+    }).on('click','ul>li',function(){
+          let parent = $(this).closest('.select');
+          parent.removeClass('is-open').find('.placeholder').text( $(this).text() );
+          parent.find('input[type=hidden]').attr('value', $(this).attr('data-value') );
+    });
+
+
+    $('#id_content').change(function(e){
+        if ($(this).val() == 'movies' || $(this).val() == 'animation'){
+            $("#id_series_status").prop('disabled', true);
+        } else {
+            $("#id_series_status").prop('disabled', false);
+        }
+    });
 });
 
 

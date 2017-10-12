@@ -17,7 +17,6 @@ urlpatterns = [
         VideoDetail.as_view(),
         name='video_detail'),
 
-
     #favorites
     url(r'^watching/(?P<pk>[0-9]+)', watching_now, name='watching'),
 ]

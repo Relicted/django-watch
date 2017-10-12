@@ -36,6 +36,14 @@ class CreateVideoItemForm(forms.ModelForm):
         model = Video
         fields = '__all__'
 
+    def clean(self):
+        data = super(CreateVideoItemForm, self).clean()
+        series = ['series', 'animationseries']
+        if data.get('content') in series and not data.get('series_status'):
+            self.add_error(
+                'series_status', _('This field is required for series items.'))
+        return data
+
 
 class AddScreenshots(forms.ModelForm):
     shots = forms.ImageField(
@@ -48,12 +56,6 @@ class AddScreenshots(forms.ModelForm):
     class Meta:
         model = VideoScreenshot
         fields = []
-
-    def clean(self):
-        print(self.cleaned_data)
-        if self.value == 'net':
-            self.add_error('value', 'net =)))')
-        super(AddScreenshots, self).clean()
 
 
 class AddVideoFileForm(forms.ModelForm):
@@ -79,3 +81,9 @@ class AddVideoToList(forms.ModelForm):
     class Meta:
         model = WatchingList
         exclude = ['user', 'video']
+
+    def clean(self):
+        data = super(AddVideoToList, self).clean()
+        if data['is_favorite']:
+            self.is_favorite = True
+        return data

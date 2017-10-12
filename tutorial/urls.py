@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='account')),
     #VIDEO
     url(r'^video/', include('videos.urls', namespace='video')),
+    url(r'^videolist/', include('videos.list_urls', namespace='list')),
 
 ]
 

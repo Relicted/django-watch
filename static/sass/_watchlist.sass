@@ -1,0 +1,83 @@
+.watchlist-wrap
+  height: 100%
+  background: #343535
+
+#watchlist
+  margin-top: 150px
+  width: 100%
+
+
+th, td
+  padding: 9px
+th.wl-num
+  text-align: center
+  border-left: none!important
+#watchlist thead
+  color: #fff
+  background: #212529
+  font-family: 'Saira', sans-serif
+
+
+#watchlist tbody
+  background: #FFFFFF
+
+#watchlist tbody tr
+  &:hover
+    background: #dddddd
+
+.s-tag
+  position: relative
+  text-align: center
+  &:before
+    content: ''
+    position: absolute
+    width: 8px
+    height: 100%
+    left: 0
+    top: 0
+    background: #c43a41
+
+
+.s-tag.watching
+  &:before
+    background: #ffd405
+.s-tag.plantowatch
+  &:before
+    background: #6cd6d5
+.s-tag.dropped
+  &:before
+    background: #c43a41
+.s-tag.completed
+  &:before
+    background: #08d627
+.s-tag.waitingfor
+  &:before
+    background: #e66211
+.s-tag.on-hold
+  &:before
+    background: #807e84
+
+
+
+.wl-item-row
+  text-align: center
+  border-bottom: 1px solid #DDDDDD
+.wl-num
+  max-width: 50px
+  width: 50px
+.wl-favs
+  text-align: center
+  width: 20px
+.wl-score
+  width: 30px
+  text-align: center
+.wl-type
+  text-align: center
+  width: 150px
+.wl-tags
+  text-align: center
+  width: 100px
+.wl-comment
+  text-align: center
+  width: 80px
+.wl-type

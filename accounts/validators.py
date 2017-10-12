@@ -2,8 +2,18 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 CUSTOM_RESERVED_NAMES = [
-    '',
+    'host',
+    'audio',
+    'video',
+    'settings',
+    'info',
+    'board',
+    'contacts',
+    'media',
+    'profile',
+    'news',
 ]
+
 
 VALIDATORS = CUSTOM_RESERVED_NAMES
 
@@ -13,7 +23,7 @@ class UserRegValid(object):
     """
     def __init__(self, name, email):
         self.TAKEN = _('Username is already taken')
-        self.BAD_CHAR = _('CHANGE SYMBOLS ERROR')
+        self.BAD_CHAR = _('Name should contain only alphanumeric symbols')
         self.RESERVED = _("Sorry, name '{}' is a reserved word").format(name)
         self.ERROR = {}
         self.username_invalid(name)
@@ -24,6 +34,9 @@ class UserRegValid(object):
             self.ERROR['username'] = self.RESERVED
         elif User.objects.filter(username__iexact=name).exists():
             self.ERROR['username'] = self.TAKEN
+
+        if not all(x.isalnum() or x.isspace() for x in name):
+            self.ERROR['username'] = self.BAD_CHAR
 
     def email_invalid(self, email):
         if User.objects.filter(email__iexact=email).exists():

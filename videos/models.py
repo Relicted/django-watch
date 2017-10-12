@@ -39,11 +39,12 @@ class Video(BaseModelLike):
     content = models.CharField(
         choices=CONTENT_TYPES,
         max_length=50,
-        default='')
+        null=True)
     series_status = models.PositiveSmallIntegerField(
         choices=SERIES_STATUS,
         blank=True,
-        null=True)
+        null=True,
+        verbose_name='status')
     original_title = models.CharField(
         max_length=150)
     poster = models.ImageField(
@@ -242,6 +243,11 @@ class WatchingList(models.Model):
     score = models.PositiveSmallIntegerField(choices=SCORES)
     status = models.PositiveSmallIntegerField(choices=STATUSES)
     is_favorite = models.BooleanField(default=False)
+    tags = models.CharField(max_length=500, blank=True, default='')
+    comment = models.CharField(max_length=500, blank=True, default='')
 
     def __str__(self):
         return str(self.score)
+
+    def tag_list(self):
+        return self.tags.split(',')

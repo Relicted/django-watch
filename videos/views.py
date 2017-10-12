@@ -26,20 +26,21 @@ from .uploads import screenshot_handler
 
 
 def watching_now(request, pk):
-    video = Video.objects.get(pk=pk)
-    user = request.user
-    score = request.POST.get('score')
-    status = request.POST.get('status')
-    is_favorite = request.POST.get('is_favorite', False)
+
+    post = [x for x in request.POST if x != 'csrfmiddlewaretoken']
+    defaults = {k: request.POST.get(k) for k in post}
+
+    try:
+        if defaults['is_favorite']:
+            defaults['is_favorite'] = True
+    except KeyError:
+        defaults['is_favorite'] = False
+
     if request.method == 'POST':
         list_item, created = WatchingList.objects.update_or_create(
-            defaults={
-                'score': score,
-                'status': status,
-                'is_favorite': bool(is_favorite)
-            },
-            user=user,
-            video=video
+            defaults=defaults,
+            user=request.user,
+            video=Video.objects.get(pk=pk)
         )
         return HttpResponseRedirect(reverse('video:video_detail', kwargs={'pk':pk}))
     else:
@@ -119,7 +120,6 @@ class VideoList(ListView):
 
     def get(self, request, *args, **kwargs):
         q = [x for x in self.request.path.split('/') if x][-1]
-        print(q)
         self.video = Video.objects.filter(content__iexact=q)
         return super(VideoList, self).get(request, *args, **kwargs)
 

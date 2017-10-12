@@ -6,12 +6,6 @@ register = template.Library()
 
 
 
-COUNTRIES = {
-    'сша': 'usa',
-    'англия': 'england'
-}
-
-
 @register.filter
 def cut_and_split(value):
     return value.replace(' ', '').split(',')

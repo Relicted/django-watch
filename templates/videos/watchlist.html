@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static i18n video_extras %}
+{% block content %}
+<table id="watchlist">
+    <thead>
+        <tr>
+            <th class="wl-num">#</th>
+            <th class="wl-video"><a href="{% url 'list:watchlist' pk=user.id %}?order=video">Video</a></th>
+            <th class="wl-type"><a href="">Type</a></th>
+            <th class="wl-score"><a href="">Score</a></th>
+            <th class="wl-tags"><a href="">Tags</a></th>
+            <th class="wl-comment"><a href="">Comment</a></th>
+            <th class="wl-favs"><a href=""><i class="fa fa-star" aria-hidden="true"></i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in pieces %}
+        <tr class="wl-item-row">
+            <td class="s-tag {{ p.get_status_display|cut:" "|lower }}">{{ forloop.counter }}</td>
+            <td align="left"><a href="{% url 'video:video_detail' pk=p.video.id %}">{{ p.video }}</a></td>
+            <td>{{ p.video.get_content_display }}</td>
+            <td>{{ p.score }}</td>
+            <td>{% for tag in p.tag_list %}
+                <a href="">{{ tag }}</a>
+            {% endfor %}
+            </td>
+            <td>{{ p.comment }}</td>
+            <td>{% if p.is_favorite %}+{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

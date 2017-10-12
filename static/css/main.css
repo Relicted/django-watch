@@ -207,8 +207,26 @@ hr {
 .status-tag.waitingfor {
   background: #e66211; }
 
-.status-tag.onhold {
+.status-tag.on-hold {
   background: #807e84; }
+
+.status-tag.finished {
+  background: #8fd614; }
+
+.status-tag.closed {
+  background: #d63a4a; }
+
+.status-tag.on-going {
+  background: #0088d6; }
+
+.status-tag.s-status {
+  left: -5px; }
+
+@media (max-width: 767px) {
+  .my-videos {
+    padding-top: 40px !important; }
+  .my-videos .form-group {
+    margin: 0; } }
 
 .serial-list .video-poster {
   height: 300px;
@@ -494,6 +512,90 @@ label[for='id_shots'] {
         background: #4ebbf0;
         color: #fff; }
 
+.watchlist-wrap {
+  height: 100%;
+  background: #343535; }
+
+#watchlist {
+  margin-top: 150px;
+  width: 100%; }
+
+th, td {
+  padding: 9px; }
+
+th.wl-num {
+  text-align: center;
+  border-left: none !important; }
+
+#watchlist thead {
+  color: #fff;
+  background: #212529;
+  font-family: 'Saira', sans-serif; }
+
+#watchlist tbody {
+  background: #FFFFFF; }
+
+#watchlist tbody tr:hover {
+  background: #dddddd; }
+
+.s-tag {
+  position: relative;
+  text-align: center; }
+  .s-tag:before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #c43a41; }
+
+.s-tag.watching:before {
+  background: #ffd405; }
+
+.s-tag.plantowatch:before {
+  background: #6cd6d5; }
+
+.s-tag.dropped:before {
+  background: #c43a41; }
+
+.s-tag.completed:before {
+  background: #08d627; }
+
+.s-tag.waitingfor:before {
+  background: #e66211; }
+
+.s-tag.on-hold:before {
+  background: #807e84; }
+
+.wl-item-row {
+  text-align: center;
+  border-bottom: 1px solid #DDDDDD; }
+
+.wl-num {
+  max-width: 50px;
+  width: 50px; }
+
+.wl-favs {
+  text-align: center;
+  width: 20px; }
+
+.wl-score {
+  width: 30px;
+  text-align: center; }
+
+.wl-type {
+  text-align: center;
+  width: 150px; }
+
+.wl-tags {
+  text-align: center;
+  width: 100px; }
+
+.wl-comment {
+  text-align: center;
+  width: 80px; }
+
 body {
   overflow-x: hidden;
   background: #020407; }
@@ -552,7 +654,8 @@ ul {
   font-size: 30px;
   float: left;
   padding: 15px;
-  color: #3ec0e1; }
+  color: #3ec0e1;
+  min-width: 137px; }
 
 .mfp-fade.mfp-bg {
   opacity: 0;
