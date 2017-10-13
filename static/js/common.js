@@ -225,6 +225,64 @@ $(document).ready(function () {
             $("#id_series_status").prop('disabled', false);
         }
     });
+
+
+
+
+
+
+    // LIKE DISLIKE
+
+    function like() {
+        let like = $(this);
+        let type = like.data('type');
+        let pk = like.data('id');
+        let action = like.data('action');
+        let dislike = like.next();
+
+        $.ajax({
+            url : $(this).attr('send-to'),
+            type : 'POST',
+            data : { 'obj' : pk, csrfmiddlewaretoken: csrftoken},
+
+            success : function (data) {
+                like.find("[data-count='like']").text(data.likes);
+                dislike.find("[data-count='dislike']").text(data.dislikes);
+            }
+        });
+
+        return false;
+    }
+
+    function dislike() {
+        let dislike = $(this);
+        let type = dislike.data('type');
+        let pk = dislike.data('id');
+        let action = dislike.data('action');
+        let like = dislike.prev();
+
+        $.ajax({
+            url : $(this).attr('send-to'),
+            type : 'POST',
+            data : { 'obj' : pk, csrfmiddlewaretoken: csrftoken },
+
+            success : function (data) {
+                dislike.find("[data-count='dislike']").text(data.dislikes);
+                like.find("[data-count='like']").text(data.likes);
+            }
+        });
+
+        return false;
+    }
+
+    //LIKE DISLIKE ONCLICK
+    $(function() {
+        $('[data-action="like"]').click(like);
+        $('[data-action="dislike"]').click(dislike);
+    });
+
+
+
 });
 
 

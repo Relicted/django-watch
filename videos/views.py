@@ -21,6 +21,7 @@ from .forms import (
     AddVideoFileForm,
     AddVideoToList
 )
+from tutorial.models import LikeDislike
 from tutorial import settings
 from .uploads import screenshot_handler
 
@@ -172,6 +173,7 @@ class VideoDetail(DetailView):
                 instance=WatchingList.objects.filter(
                     user=self.request.user,
                     video=self.object).first())
+        context['test'] = LikeDislike.objects.all().count()
         return context
 
     def get(self, request, *args, **kwargs):

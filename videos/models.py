@@ -8,13 +8,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.urls import reverse
+from django.contrib.contenttypes.fields import GenericRelation
 import sys
 # ============================================== #
 from tutorial import settings
 from .validators import POSTER_SIZE
 from tutorial.models import (
     BaseModel,
-    BaseModelLike)
+    LikeDislike)
 from .uploads import (
     screen_upload,
     poster_upload,
@@ -23,7 +24,7 @@ from .uploads import (
 from tutorial.storage import OverwriteStorage
 
 
-class Video(BaseModelLike):
+class Video(BaseModel):
     CONTENT_TYPES = (
         ('movies', _('Movies')),
         ('series', _('TV Show')),
@@ -56,6 +57,7 @@ class Video(BaseModelLike):
     description = models.TextField(
         max_length=2000,
         verbose_name='About', )
+    votes = GenericRelation(LikeDislike, related_query_name='videos')
 
     class Meta:
         ordering = ['original_title']
@@ -69,8 +71,6 @@ class Video(BaseModelLike):
 
         # if self.content != 'series' or self.content != 'animationseries':
         #     self.__serial_status = None
-
-
 
     def __str__(self):
         return self.original_title

@@ -33,10 +33,10 @@
                             <form id="my_video_form" action="{% url 'video:watching' pk=object.pk %}" method="post">
                                 {% csrf_token %}
                                 {% for field in list_add_form %}
-                                <div class="form-group">
-                                    <label class="col-xs-5" for="id_{{ field.name }}">{{ field.label }}:</label>
-                                    <div class="col-xs-7">{{ field }}</div>
-                                </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-5" for="id_{{ field.name }}">{{ field.label }}:</label>
+                                        <div class="col-xs-7">{{ field }}</div>
+                                    </div>
                                 {% endfor %}
                                 <div class="btn-group">
                                     <button class="btn btn-success" type="submit">{% trans 'Add' %}</button>
@@ -44,20 +44,20 @@
                             </form>
                         </div>
                         {% endif %}
-
-
                     </div>
+
                     <div class="poster-btn-grp btn-group">
                         <button class="btn btn-primary user-menu">{% trans 'My Videos' %}</button>
                     </div>
+
                     <div class="btn-group poster-btn-grp clearfix">
-                        <button class="btn btn-default video-like-btn up">
+                        <button send-to="{% url 'video_like' pk=object.id %}" data-id="{{ object.id }}" data-type="video" data-action="like" class="btn btn-default video-like-btn up">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                            <span>{{ object.like.count }}</span>
+                            <span data-count="like">{{ object.votes.likes.count }}</span>
                         </button>
-                        <button class="btn btn-default video-like-btn down" send-to="{{ object.get_absolute_url }}">
+                        <button send-to="{% url 'video_dislike' pk=object.id %}" data-id="{{ object.id }}" data-type="video" data-action="dislike" class="btn btn-default video-like-btn down">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                            <span>{{ object.dislike.count }}</span>
+                            <span data-count="dislike">{{ object.votes.dislikes.count }}</span>
                         </button>
                     </div>
 

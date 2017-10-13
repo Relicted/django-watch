@@ -65,6 +65,7 @@ class AddVideoFileForm(forms.ModelForm):
             'required': False
         })
     )
+
     class Meta:
         model = VideoFile
         fields = []
@@ -75,8 +76,9 @@ class AddVideoToList(forms.ModelForm):
         super(AddVideoToList, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({
-                'class': 'select select--white'
+                'class': 'form-control'
             })
+        self.instance = kwargs.get('instance')
 
     class Meta:
         model = WatchingList

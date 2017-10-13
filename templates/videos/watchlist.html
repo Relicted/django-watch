@@ -24,11 +24,15 @@
                 <a href="">{{ tag }}</a>
             {% endfor %}
             </td>
-            <td>{{ p.comment }}</td>
+            <td>
+            {% if p.comment %}
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                <span class="hover-comment">{{ p.comment }}</span>
+            {% endif %}
+            </td>
             <td>{% if p.is_favorite %}+{% endif %}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 {% endblock %}
-

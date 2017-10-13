@@ -143,8 +143,7 @@ hr {
   background: rgba(0, 0, 0, 0.94); }
 
 .my-videos .form-group {
-  text-align: left;
-  padding-left: 15px; }
+  text-align: left; }
   .my-videos .form-group:after {
     clear: both;
     content: '';
@@ -158,7 +157,6 @@ hr {
 .my-videos .form-group .form-control {
   height: 30px;
   outline: none;
-  width: 150px;
   display: inline-block; }
 
 #my_video_form:after {
@@ -449,69 +447,6 @@ label[for='id_shots'] {
   border-bottom: 1px solid tomato;
   margin-top: 5px; }
 
-.select {
-  position: relative;
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 325px;
-  color: #030204;
-  vertical-align: middle;
-  text-align: left;
-  user-select: none;
-  -webkit-touch-callout: none; }
-  .select .placeholder {
-    position: relative;
-    display: block;
-    background-color: #393d41;
-    z-index: 1;
-    padding: 1em;
-    border-radius: 2px;
-    cursor: pointer; }
-    .select .placeholder:hover {
-      background: #34383c; }
-    .select .placeholder:after {
-      position: absolute;
-      right: 1em;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: 'FontAwesome';
-      content: '\f078';
-      z-index: 10; }
-  .select.is-open .placeholder:after {
-    content: '\f077'; }
-  .select.is-open ul {
-    display: block; }
-  .select.select--white .placeholder {
-    background: #fff;
-    color: #999; }
-    .select.select--white .placeholder:hover {
-      background: #fafafa; }
-  .select ul {
-    display: none;
-    position: absolute;
-    overflow: hidden;
-    overflow-y: auto;
-    width: 100%;
-    background: #fff;
-    border-radius: 2px;
-    top: 100%;
-    left: 0;
-    list-style: none;
-    margin: 5px 0 0 0;
-    padding: 0;
-    z-index: 100;
-    max-height: 120px; }
-    .select ul li {
-      display: block;
-      text-align: left;
-      padding: 0.8em 1em 0.8em 1em;
-      color: #999;
-      cursor: pointer; }
-      .select ul li:hover {
-        background: #4ebbf0;
-        color: #fff; }
-
 .watchlist-wrap {
   height: 100%;
   background: #343535; }
@@ -537,6 +472,9 @@ th.wl-num {
 
 #watchlist tbody tr:hover {
   background: #dddddd; }
+
+#watchlist td {
+  position: relative; }
 
 .s-tag {
   position: relative;
@@ -596,6 +534,24 @@ th.wl-num {
   text-align: center;
   width: 80px; }
 
+.hover-comment {
+  min-width: 200px;
+  text-align: left;
+  position: absolute;
+  right: 100%;
+  z-index: 5;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 5px 15px;
+  top: 10px;
+  visibility: hidden;
+  -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.75); }
+
+.glyphicon-comment:hover ~ .hover-comment {
+  visibility: visible; }
+
 body {
   overflow-x: hidden;
   background: #020407; }
@@ -617,6 +573,11 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0; }
+
+.form-group input {
+  outline: none; }
+  .form-group input:focus {
+    outline: none; }
 
 .errorlist {
   color: #ff3200;
