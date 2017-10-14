@@ -13,4 +13,12 @@ $(document).ready(function () {
        $(this).attr('data-toggle', 'modal');
        $(this).attr('data-target', '#login-modal');
     });
+
+    $('[data-action="like"]').each(function () {
+        $(this).removeAttr('data-action')
+    });
+    $('[data-action="dislike"]').each(function () {
+        $(this).removeAttr('data-action')
+    })
 });
+

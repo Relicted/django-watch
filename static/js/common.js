@@ -70,6 +70,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data) {
                     if (data.password) {
+                        console.log(data.password);
                         $('#password-errors').html(data.password);
                         $('#id_password').parent().addClass('has-error')
                     } else if (data.username) {
@@ -113,7 +114,6 @@ $(document).ready(function () {
             data: {'id': id},
             success: function (data) {
                 let left, top, container, toLeft, vidItem, toRight, style;
-
                 left = Math.trunc(item.position().left);
                 top = Math.trunc(item.position().top);
                 container = $('.serial-list').width();
@@ -130,12 +130,14 @@ $(document).ready(function () {
                 }
 
                 $("#item-fast-info").attr('style', style);
-                $('.fast-description').text(data.response['description']);
-                $('.video-like-btn.up span').text(data.response['like']);
-                $('.video-like-btn.down span').text(data.response['dislike']);
+                $('.fast-description').text(data['description']);
+                $('.video-like-btn.up span').text(data['like']);
+                $('.video-like-btn.down span').text(data['dislike']);
+                $('#item-fast-info').find('button').attr('data-id', id);
+                $('#item-fast-info').find('[data-action="like"]').attr('send-to', data['like_url']);
+                $('#item-fast-info').find('[data-action="dislike"]').attr('send-to', data['dislike_url']);
 
                 $('#item-fast-info').mouseenter(function () {
-
                     $(this).attr('style', style);
                     $(this).mouseleave(function () {
                         $(this).removeAttr('style')
@@ -235,9 +237,7 @@ $(document).ready(function () {
 
     function like() {
         let like = $(this);
-        let type = like.data('type');
         let pk = like.data('id');
-        let action = like.data('action');
         let dislike = like.next();
 
         $.ajax({
@@ -256,9 +256,7 @@ $(document).ready(function () {
 
     function dislike() {
         let dislike = $(this);
-        let type = dislike.data('type');
         let pk = dislike.data('id');
-        let action = dislike.data('action');
         let like = dislike.prev();
 
         $.ajax({

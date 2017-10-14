@@ -51,11 +51,11 @@
                     </div>
 
                     <div class="btn-group poster-btn-grp clearfix">
-                        <button send-to="{% url 'video_like' pk=object.id %}" data-id="{{ object.id }}" data-type="video" data-action="like" class="btn btn-default video-like-btn up">
+                        <button send-to="{% url 'video_like' pk=object.id %}" data-id="{{ object.id }}" data-action="like" class="btn btn-default video-like-btn up">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             <span data-count="like">{{ object.votes.likes.count }}</span>
                         </button>
-                        <button send-to="{% url 'video_dislike' pk=object.id %}" data-id="{{ object.id }}" data-type="video" data-action="dislike" class="btn btn-default video-like-btn down">
+                        <button send-to="{% url 'video_dislike' pk=object.id %}" data-id="{{ object.id }}" data-action="dislike" class="btn btn-default video-like-btn down">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                             <span data-count="dislike">{{ object.votes.dislikes.count }}</span>
                         </button>

@@ -34,6 +34,7 @@ class SearchResult(ListView):
 
         return context
 
+
 class Votes(View):
     model = None
     vote_type = None

@@ -1,18 +1,14 @@
 import os
 import shutil
-from django.core.urlresolvers import resolve
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.core.files import File
 from django.utils.translation import ugettext as _
 from django.forms.models import model_to_dict
-from django.views.generic import DetailView, ListView, CreateView, FormView
+from django.views.generic import DetailView, ListView, FormView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, HttpResponseRedirect
-from django.forms import formset_factory
 # create your views here.
 from .models import Video, VideoScreenshot, Season, VideoFile, WatchingList
 from .forms import (
@@ -27,7 +23,6 @@ from .uploads import screenshot_handler
 
 
 def watching_now(request, pk):
-
     post = [x for x in request.POST if x != 'csrfmiddlewaretoken']
     defaults = {k: request.POST.get(k) for k in post}
 
@@ -178,15 +173,19 @@ class VideoDetail(DetailView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            exclude = ['poster', 'wide_poster']
+            fields = ['original_title', 'description']
             obj = Video.objects.get(pk=request.GET.get('id'))
-            response = model_to_dict(obj, exclude=exclude)
-            response['like'] = obj.like.count()
-            response['dislike'] = obj.like.count()
+
+            response = model_to_dict(obj, fields=fields)
+
             data = {
-                'response': response
+                'like': obj.votes.likes().count(),
+                'like_url': reverse('video_like', kwargs={'pk': obj.pk}),
+                'dislike': obj.votes.dislikes().count(),
+                'dislike_url': reverse('video_dislike', kwargs={'pk': obj.pk}),
             }
-            return JsonResponse(data)
+
+            return JsonResponse({**response, **data})
         return super(VideoDetail, self).get(request, *args, **kwargs)
 
 
