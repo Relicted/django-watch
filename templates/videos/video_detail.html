@@ -100,6 +100,7 @@
                 <p class="item-value">{{ object.description }}</p>
             </div>
         </div>
+        {% include 'snippets/comments.html' %}
     </div>
     {% if not user.is_authenticated %}
     {% include 'snippets/login_modal.html' %}

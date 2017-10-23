@@ -15,7 +15,7 @@
         <input type="hidden" name="next" value="{{ next }}">
         {% for field in form %}
         <div class="form-group">
-            <span id="{{ field.name }}-errors" class="errorlist"></span>
+            <span id="{{ field.name }}-errors" class="errorlist">{{ field.errors }}</span>
             {{ field }}
         </div>
         {% endfor %}

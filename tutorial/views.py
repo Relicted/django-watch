@@ -2,6 +2,8 @@ from django.views.generic import TemplateView, ListView
 from django.views import View
 from django.http import JsonResponse
 from django.db.models import Q
+
+from news.models import Post
 from videos.models import Video
 from django.contrib.contenttypes.models import ContentType
 from .models import LikeDislike
@@ -16,6 +18,7 @@ class Home(TemplateView):
             content='series').order_by('-updated_at')[:6]
         context['movies'] = Video.objects.filter(
             content='movies').order_by('-updated_at')[:6]
+        context['posts'] = Post.objects.all()[:6]
         return context
 
 

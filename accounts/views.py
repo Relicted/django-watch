@@ -1,70 +1,69 @@
-from django.shortcuts import render, reverse
-from django.urls import resolve
-from django.views.generic import FormView, TemplateView
-from django.http import HttpResponseRedirect, JsonResponse
-from .forms import (
-                    CustomRegistrationForm,
-                    CustomAuthenticationForm,
-                    )
-from django.contrib.auth.views import LoginView, logout
-from django.db.models import Q
-from tutorial import settings
-from django.utils.translation import ugettext as _
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+# =====
+from .forms import (ProfileForm,
+                    PictureForm,
+                    CustomPasswordChangeForm)
 
 
-class CustomLoginView(LoginView):
-    template_name = 'accounts/login.html'
-    form_class = CustomAuthenticationForm
+def profile_view(request, profile):
+    instance = get_object_or_404(User, username__iexact=profile)
+    return render(request, 'accounts/profile_detail.html', locals())
 
-    def get_context_data(self, **kwargs):
-        context = super(CustomLoginView, self).get_context_data(**kwargs)
-        return context
 
-    def form_invalid(self, form):
-        response = super(CustomLoginView, self).form_invalid(form)
-        if self.request.is_ajax():
-            return JsonResponse(form.errors)
+@login_required
+def profile(request):
+    instance = request.user.profile
+    form = ProfileForm(instance=instance)
+    picture = PictureForm()
+    if request.method == 'POST' and not request.FILES:
+        form = ProfileForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('settings:profile')
         else:
-            return response
+            return render(request,
+                          'accounts/settings.html',
+                          locals())
 
-    def form_valid(self, form):
-        response = super(CustomLoginView, self).form_valid(form)
-        if self.request.is_ajax():
-            data = {
-                'reload': True
-            }
-            return JsonResponse(data)
-        return response
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse("home"))
-        return super(CustomLoginView, self).dispatch(request, *args, **kwargs)
-
-
-def logout_view(request):
-    logout(request)
-    return render(request, 'accounts/logout.html')
-
-
-class CustomRegistrationView(FormView):
-    form_class = CustomRegistrationForm
-    template_name = 'accounts/registration_form.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('home'))
-        return super(CustomRegistrationView, self).dispatch(
-            request, args, **kwargs)
-
-    def get_success_url(self):
-        return reverse('home')
-
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.save()
-        return super(CustomRegistrationView, self).form_valid(form)
+    elif request.method == 'POST' and request.FILES:
+        picture = PictureForm(request.POST, request.FILES)
+        if picture.is_valid():
+            instance.picture = request.FILES.get('picture')
+            instance.save(update_fields=['picture'])
+            return redirect('settings:profile')
+        else:
+            print(picture.errors)
+            return render(request,
+                          'accounts/settings.html',
+                          locals())
+    else:
+        return render(request,
+                      'accounts/settings.html',
+                      locals())
 
 
-def activation_view(request):
-    return render(request, 'accounts/activation.html')
+@login_required
+def account(request):
+    instance = request.user
+    form = CustomPasswordChangeForm(request.user)
+    hide_label = True
+    if request.method == "POST":
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password updated')
+            return redirect('settings:account')
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return render(request,
+                          'accounts/settings.html',
+                          locals())
+    else:
+        return render(request,
+                      'accounts/settings.html',
+                      locals())

@@ -40,10 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+
+    'rest_framework',
     #custom
     'accounts',
     'videos',
+    'news',
+    'comments',
 ]
+
+
+#REST
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
@@ -123,7 +138,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
@@ -168,6 +182,11 @@ VIDEO_POSTERS_WIDE = 'video_posters_wide'
 VIDEO_SCREENSHOTS = 'video_screenshot'
 
 VIDEO_FILES = 'video_files'
+
+
+NEWS_POSTER = 'news_poster'
+NEWS_PHOTOS = 'news_photos'
+
 
 try:
     from .local_settings import *

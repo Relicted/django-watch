@@ -1,20 +1,17 @@
-from django.conf.urls import url, include
-from .views import (CustomLoginView,
-                    logout_view,
-                    activation_view,
-                    CustomRegistrationView)
+from django.conf.urls import url
+from django.urls import reverse_lazy
+from django.views.generic import RedirectView
+
+from .views import (profile_view,
+                    profile,
+                    account)
 
 urlpatterns = [
-    #MAIN PAGE
-    url(r'^login/$',
-        CustomLoginView.as_view(),
-        name='login'),
-    url(r'^logout/$', logout_view, name='logout'),
+    #profile settings
+    url(r'^$', RedirectView.as_view(
+        url=reverse_lazy('settings:profile'), permanent=True)),
 
-    url(r'^register/$',
-        CustomRegistrationView.as_view(),
-        name="registration"),
-
-    url(r'^activation/', activation_view, name='activation'),
+    url(r'^profile/$', profile, name='profile'),
+    url(r'^account/$', account, name='account'),
 
 ]

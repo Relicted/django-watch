@@ -1,6 +1,7 @@
 import os
 import shutil
 from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.core.files import File
@@ -10,6 +11,8 @@ from django.views.generic import DetailView, ListView, FormView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, HttpResponseRedirect
 # create your views here.
+from comments.models import Comment
+from news.models import Post
 from .models import Video, VideoScreenshot, Season, VideoFile, WatchingList
 from .forms import (
     CreateVideoItemForm,
@@ -49,7 +52,6 @@ def add_screen(request):
     user = request.user.username
     path = '/'.join([settings.FILE_UPLOAD_TEMP_DIR,
                      user])
-
     if os.path.exists(path):
         shutil.rmtree(path, ignore_errors=True)
 
@@ -142,6 +144,7 @@ class VideoDetail(DetailView):
     template_name = 'videos/video_detail.html'
     watchlists = None
 
+    #PEREDELAI COMMENTI
     def get_context_data(self, **kwargs):
         context = super(VideoDetail, self).get_context_data(**kwargs)
         self.watchlists = WatchingList.objects.filter(
@@ -169,6 +172,13 @@ class VideoDetail(DetailView):
                     user=self.request.user,
                     video=self.object).first())
         context['test'] = LikeDislike.objects.all().count()
+
+        content_type = ContentType.objects.get_for_model(Video)
+        object_id = self.object.id
+        context['comments'] = Comment.objects.filter(
+            content_type=content_type,
+            object_id=object_id
+        ).order_by('-created_at')
         return context
 
     def get(self, request, *args, **kwargs):

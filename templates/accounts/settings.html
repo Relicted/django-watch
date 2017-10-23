@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load mytags i18n %}
+{% block title %}Account Settings{% endblock %}
+{% block content %}
+<div class="page-content">
+    <div class="col-md-3 profile-nav">
+        <div class="list-group">
+            <a href="{% url 'settings:profile' %}" class="list-group-item {% active 'settings:profile' %}">{% trans 'Profile' %}</a>
+            <a href="{% url 'settings:account' %}" class="list-group-item {% active 'settings:account' %}">{% trans 'Account' %}</a>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {% if not hide_label %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% endif %}
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+
+
+
+    {% if request.path|is_profile %}
+    <div class="col-md-4">
+        <div class="profile-pic">
+            <img src="{{ instance.picture.url }}" class="img-responsive" alt="">
+            <hr>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label data-toggle="modal" class="btn btn-primary" for="{{ picture.picture.id_for_label }}">{{ picture.picture.label }}</label>
+                {{ picture.picture.errors }}
+                {{ picture.picture }}
+
+                <div class="modal fade" id="profile_pic_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <div id="upload-demo">
+                                CROP RESIZE SECTION
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">{% trans 'Save Picture' %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

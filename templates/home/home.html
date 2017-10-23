@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% block title %}Watchlist - Main{% endblock %}
 {% block content %}
 <div class="page-content">
-    <section id="last-add-serials">
+
+    <section id="last-news">
+
+    </section>
+
+    <section id="last-add-serials" class="col-xs-12">
         <div class="last-item-wrapper">
              <div class="section-title col-xs-12">
                 <div class="animated bounceInRight go">
@@ -16,10 +22,11 @@
                 <div class="video-item">
                     <img class="wide-poster img-responsive" src="{{ i.wide_poster.url }}" alt="">
                     <div class="bck2"></div>
-                    <div class="bck">
-                        <i class="fa fa-cogs video-settings" aria-hidden="true" data-toggle="modal" data-target="#item_{{ i.pk }}"></i>
+                    <i class="fa fa-cogs video-settings" aria-hidden="true" data-toggle="modal" data-target="#item_{{ i.pk }}"></i>
+                    <a class="bck" href="{% url 'video:video_detail' pk=i.id %}">
+
                         <a class="white-title" href="{% url 'video:video_detail' pk=i.pk %}">{{ i.original_title }}</a>
-                    </div>
+                    </a>
                 </div>
                 <div id="item_{{ i.pk }}" class="modal fade" role="dialog" tabindex="-1">
                     <div class="modal-dialog">

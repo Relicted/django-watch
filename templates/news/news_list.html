@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Watchlist - News{% endblock %}
+{% block content %}
+<div class="page-content">
+    <div class="col-md-8">
+    {% for post in list %}
+     <!-- Blog Post -->
+        <div class="post">
+            <img class="img-responsive" src="{{ post.main_picture.url }}" alt="Card image cap">
+            <div class="">
+                <h2 class="">{{ post.article }}</h2>
+                <a href="{% url 'news:post_detail' pk=post.id %}" class="btn btn-primary">Read More →</a>
+                <div class="btn-group clearfix col-xs-7 col-md-5">
+                    <button send-to="{% url 'post_like' pk=post.id %}" data-id="{{ post.id }}" data-action="like" class="btn btn-default video-like-btn up">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        <span data-count="like">{{ post.votes.likes.count }}</span>
+                    </button>
+                    <button send-to="{% url 'post_dislike' pk=post.id %}" data-id="{{ post.id }}" data-action="dislike" class="btn btn-default video-like-btn down">
+                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                        <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
+                    </button>
+                </div>
+                <a href="{% url 'news:post_detail' pk=post.id %}#post_comments" class="btn btn-primary">Comments: {{ post.comments.all.count }}</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+        <a href="{% url 'news:post_create' %}" class="btn btn-default create">Create Post</a>
+        <!-- Search Widget -->
+        <div class="card my-4">
+            <h3 class="card-header">Search</h3>
+            <div class="card-body">
+                <form action="" method="get">
+                    <div class="input-group">
+                        <input name="q" type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Go!</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Category Widget -->
+        <div class="card my-4">
+            <h3 class="card-header">Categories</h3>
+            <div class="card-body">
+                <ul>
+                    <li><a href="?cat=tv_show">TV Show</a></li>
+                    <li><a href="?cat=movies">Movies</a></li>
+                    <li><a href="">Actors</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

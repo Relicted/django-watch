@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-content">
+    <div class="col-md-8 post-detail">
+        <h2 class="">{{ post.article }}</h2>
+        <img class="img-responsive" src="{{ post.main_picture.url }}" alt="">
+        <div class="description">
+            {{ post.text }}
+        </div>
+    </div>
+    <div class="post-sidebar col-md-4">
+        <div class="btn-group clearfix col-xs-12">
+            <button send-to="{% url 'post_like' pk=post.id %}" data-id="{{ post.id }}" data-action="like" class="btn btn-default video-like-btn up">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                <span data-count="like">{{ post.votes.likes.count }}</span>
+            </button>
+            <button send-to="{% url 'post_dislike' pk=post.id %}" data-id="{{ post.id }}" data-action="dislike" class="btn btn-default video-like-btn down">
+                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
+            </button>
+        </div>
+    </div>
+
+
+    <div id="post_commennts" class="col-md-8">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input name="comment" type="text">
+            <button type="submit">Send</button>
+        </form>
+
+        {% include 'snippets/comments.html' %}
+    </div>
+</div>
+{% endblock %}

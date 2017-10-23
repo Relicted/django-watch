@@ -1,8 +1,23 @@
-{% load static i18n %}
+{% load static i18n mytags %}
 
 <!DOCTYPE html>
 <html lang="ru">
-{% include 'snippets/head.html' %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/libs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/commentbox.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Saira" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Khula" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaijaan" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'media/lion.ico' %}">
+</head>
 <body>
     <div class="container-fluid">
         <nav class="navbar navbar-inverse">
@@ -22,10 +37,9 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="{% url 'video:add' %}">Add video</a></li>
-                        {% if debug %}<li><a href="{% url 'test:test' %}">Playground</a></li>{% endif %}
+                        <li><a class="{% active 'news:list_news' %}" href="{% url 'news:list_news' %}">{% trans 'News' %}</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans "Video" %} <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" {% active 'video:series' %}>{% trans "Video" %} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'video:movie' %}">{% trans "Movies" %}</a></li>
                                 <li><a href="{% url 'video:series' %}">{% trans "Series" %}</a></li>
@@ -43,18 +57,31 @@
                     </form>
 
                     <!-- Login or menu button -->
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'account:login' %}">Login</a>
-                        <a href="{% url 'account:registration' %}">Registration</a>
-                    {% else %}
-                        <a href="{% url 'account:logout' %}">Logout</a>
-                    {% endif %}
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'account:login' %}">Login</a>
+                    <a href="{% url 'account:registration' %}">Registration</a>
+                {% else %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img width="50px" src="{{ user.profile.picture.url }}" alt="">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'list:watchlist' pk=user.id %}">{% trans 'Video List' %}</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'profile' profile=user.username %}">{% trans 'Profile' %}</a></li>
+                                <li><a href="{% url 'settings:profile' %}">{% trans 'Settings' %}</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'account:logout' %}">{% trans 'Log out' %}</a></li>
+                            </ul>
+                        </li>
                     </ul>
+                {% endif %}
                 </div><!-- /.navbar-collapse -->
             </div>
         </nav> <!-- navbar -->
     </div> <!-- CONTAINER -->
-
     <div class="container-fluid page-wrap">
         <div class="container">
             {% block content %} {% endblock %}

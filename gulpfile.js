@@ -25,7 +25,7 @@ gulp.task('scripts', function () {
         'static/libs/jquery.js',
         'static/libs/mp/dist/jquery.magnific-popup.min.js',
         'static/libs/bootstrap/js/bootstrap.js',
-        'static/libs/animateit/js/css3-animate-it.js'
+        'static/libs/animateit/js/css3-animate-it.js',
     ])
         .pipe(concat('libs.min.js'))
         .pipe(uglify())

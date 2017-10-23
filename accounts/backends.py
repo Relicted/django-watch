@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
-
+from rest_framework.authentication import BaseAuthentication
 
 class CaseInsensitiveModelBackend(ModelBackend):
     def authenticate(self, username=None, password=None, **kwargs):

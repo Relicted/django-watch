@@ -279,8 +279,10 @@ $(document).ready(function () {
         $('[data-action="dislike"]').click(dislike);
     });
 
-
-
+    //SHOW MODAL WHEN PROFILE PICTURE INPUT CHANGE
+    $('#id_picture').on('change', function () {
+        $('#profile_pic_modal').modal('show');
+    });
 });
 
 

@@ -5,6 +5,8 @@
 @import "_video_add"
 @import "_elems"
 @import "_watchlist"
+@import "_news_list"
+@import "_profile"
 // BASE SETTINGS
 body
   overflow-x: hidden
@@ -26,6 +28,9 @@ ul
   list-style: none
   padding: 0
   margin: 0
+li.dropdown:nth-child(1) > a:nth-child(1)
+  padding: 0 5px
+
 
 .form-group input
   outline: none
@@ -187,8 +192,7 @@ ul
   background: transparent
     //#020407
 
-#last-add-cinema
-  margin-top: 20px
+
 
 
 @media (max-width: 767px)

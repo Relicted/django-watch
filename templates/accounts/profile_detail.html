@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="page-content">
+    <div class="">
+        <div class="info col-xs-12">
+            <p class="video-title">{{ instance.username }}</p>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <img src="{{ instance.profile.picture.url }}" alt="">
+            </div>
+            <div class="">
+                <div class="item-info">
+                    <span class="item-key col-xs-4">{% trans 'Skype' %}:</span>
+                    <span class="item-value col-xs-8">{{ instance.profile.skype }}</span>
+                </div>
+                 <div class="item-info">
+                    <span class="item-key col-xs-4">{% trans 'From' %}:</span>
+                    <span class="item-value col-xs-8">{{ instance.profile.location }}</span>
+                </div>
+                 <div class="item-info">
+                    <span class="item-key col-xs-4">{% trans 'Sex' %}:</span>
+                    <span class="item-value col-xs-8"></span>
+                </div>
+                 <div class="item-info">
+                    <span class="item-key col-xs-4">{% trans 'About' %}:</span>
+                    <span class="item-value col-xs-8">{{ instance.profile.bio }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
