@@ -59,12 +59,12 @@ class Profile(models.Model):
             if self.id:
                 model = Profile.objects.get(pk=self.id)
                 try:
-                    os.remove('/'.join([settings.MEDIA_ROOT,
-                                        model.picture.name]))
                     if model.picture.name.split('.')[0] == 'default_':
                         raise FileNotFoundError(
                             'File with "default_" name is an exception'
                         )
+                    os.remove('/'.join([settings.MEDIA_ROOT,
+                                        model.picture.name]))
                 except FileNotFoundError:
                     pass
 
