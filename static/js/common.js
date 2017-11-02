@@ -131,8 +131,8 @@ $(document).ready(function () {
 
                 $("#item-fast-info").attr('style', style);
                 $('.fast-description').text(data['description']);
-                $('.video-like-btn.up span').text(data['like']);
-                $('.video-like-btn.down span').text(data['dislike']);
+                $('.like-btn.up span').text(data['like']);
+                $('.like-btn.down span').text(data['dislike']);
                 $('#item-fast-info').find('button').attr('data-id', id);
                 $('#item-fast-info').find('[data-action="like"]').attr('send-to', data['like_url']);
                 $('#item-fast-info').find('[data-action="dislike"]').attr('send-to', data['dislike_url']);
@@ -228,11 +228,6 @@ $(document).ready(function () {
         }
     });
 
-
-
-
-
-
     // LIKE DISLIKE
 
     function like() {
@@ -283,6 +278,34 @@ $(document).ready(function () {
     $('#id_picture').on('change', function () {
         $('#profile_pic_modal').modal('show');
     });
+
+    // REMEMBER ACTIVE TAB ON REFESH
+
+    $('#row-tabs li:first-child').addClass('active');
+    $('#row-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+
+        localStorage.setItem(`lastTab`, $(e.target).attr('id'));
+    });
+    //go to the latest tab, if it exists:
+    let lastTab = localStorage.getItem('lastTab');
+    if (lastTab) {
+        $('#' + lastTab).tab('show');
+    }
+
+    $('#row-sub-content li:first-child').addClass('active');
+    $('#row-sub-content a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+
+        localStorage.setItem(`subTab`, $(e.target).attr('id'));
+    });
+    //go to the latest tab, if it exists:
+    let subTab = localStorage.getItem('subTab');
+    if (subTab) {
+        $('#' + subTab).tab('show');
+    }
+
+
+
+
 });
 
 

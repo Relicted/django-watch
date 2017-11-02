@@ -1,7 +1,6 @@
-import re
+from django.core.urlresolvers import reverse
 
 from django import template
-from django.core.urlresolvers import reverse, NoReverseMatch
 
 register = template.Library()
 
@@ -19,4 +18,4 @@ def is_profile(value):
     profile = reverse('settings:profile')
     if value == profile:
         return True
-    return False
+

@@ -10,29 +10,31 @@
     <div class="login-form welcome">
         Welcome to Watchlist!
     </div>
-    <div class="login-form">
-    <form method="post">{% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {% for field in form %}
-        <div class="form-group">
-            <span id="{{ field.name }}-errors" class="errorlist">{{ field.errors }}</span>
-            {{ field }}
+
+    {% if messages %}
+    <div class="login-form messages">
+    {% for msg in messages %}
+        <div class="{{ msg.tags }}">
+            {{ msg }}
+            <i class="fa fa-times" aria-hidden="true"></i>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn login-btn">Log in</button>
-
-    </form>
-
-    <p><a href="{% url 'account:registration' %}">Create</a> new account!</p>
-    <p>Forgot your password? <a href="">Restore it!</a>!</p>
-</div>
+    {% endfor %}
     </div>
-{% endblock %}
+    {% endif %}
 
-{% block scripts %}
-
-    <script>
-
-    </script>
-
+    <div class="login-form">
+        <form method="post">{% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% for field in form %}
+            <div class="form-group">
+                <span id="{{ field.name }}-errors" class="errorlist">{{ field.errors }}</span>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn login-btn">Log in</button>
+        </form>
+        <p><a href="{% url 'account:registration' %}">Create</a> new account!</p>
+        <p>Forgot your password? <a href="{% url 'account:password_reset' %}">Restore it!</a>!</p>
+    </div>
+</div>
 {% endblock %}

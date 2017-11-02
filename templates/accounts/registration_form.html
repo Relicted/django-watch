@@ -3,29 +3,47 @@
 
 
 {% block content %}
+
 <div class="page-content">
+{% if reg_complete %}
+    <div>
+        <span>{{ username }}</span> {% trans 'was created.' %}
+        {% trans 'Activation instructions were sent to:' %} {{ email }}
+    </div>
+{% endif %}
+
+
     <div class="login-form logo">
         <img src="{% static 'media/images/lion.png' %}" class="img-responsive login-logo" alt="">
     </div>
     <div class="login-form welcome">
         Welcome to Watchlist!
     </div>
+    {% if not messages %}
     <div class="login-form">
-    <form name="register" method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-            <span class="">{{ field.errors }}</span>
-            {{ field }}
-        </div>
-        {% endfor %}
-        <button type="submit" class="btn login-btn">Sign Up</button>
+        <form name="register" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <span class="">{{ field.errors }}</span>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn login-btn">Sign Up</button>
 
-    </form>
-
-    <p><a href="{% url 'account:login' %}">Login</a> to my account!</p>
-</div>
+        </form>
+        <p><a href="{% url 'account:login' %}">Login</a> to my account!</p>
     </div>
+{% else %}
+    <div class="full-height">
+        <div class="login-form">
+        {% for msg in messages %}
+            <div class="{{ msg.tags }}">{{ msg }}</div>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+</div>
 {% endblock %}
 
 {% block scripts %}

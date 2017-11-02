@@ -1,16 +1,22 @@
+import datetime
+import secrets
 import sys
+import uuid
+from django.utils import timezone
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+from tutorial.models import BaseModel
 from videos.models import Video
 from tutorial.storage import OverwriteStorage
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 import os
 from io import BytesIO
 from PIL import Image
 from tutorial import settings
+
 
 def content_file_name(instance, filename):
     if filename:
@@ -32,6 +38,7 @@ class Profile(models.Model):
     bio = models.CharField(max_length=2000, blank=True)
     skype = models.CharField(max_length=100, blank=True)
     location = models.CharField(max_length=50, blank=True)
+    email_confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -42,13 +49,16 @@ class Profile(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        # CHECK IF PICTURE FIELD CHANGED
         if self.__original_picture != self.picture and self.picture:
             pic = Image.open(self.picture)
-            print(pic)
             pic_output = BytesIO()
 
             pic.thumbnail((300, 300))
-            pic.save(pic_output, format='JPEG')
+            ext = self.picture.name.split('.')[-1]
+            if ext.lower() == 'jpg':
+                ext = 'JPEG'
+            pic.save(pic_output, format=ext)
             pic_output.seek(0)
 
             self.picture = InMemoryUploadedFile(
@@ -56,18 +66,18 @@ class Profile(models.Model):
                 "%s%s" % (os.path.splitext(self.picture.name)),
                 'image/jpeg', sys.getsizeof(pic_output), None)
 
+            # DELETE OLD PICTURE ON CHANGE
             if self.id:
                 model = Profile.objects.get(pk=self.id)
                 try:
-                    if model.picture.name.split('.')[0] == 'default_':
-                        raise FileNotFoundError(
-                            'File with "default_" name is an exception'
-                        )
+                    pic_name = model.picture.name
+                    if pic_name == content_file_name(self, None):
+                        raise FileNotFoundError
                     os.remove('/'.join([settings.MEDIA_ROOT,
                                         model.picture.name]))
                 except FileNotFoundError:
                     pass
-
+        # SET DEFAULT PICTURE IF NO PIC SELECTED
         elif not self.picture:
             self.picture = content_file_name(self, None)
 
@@ -78,6 +88,33 @@ class Profile(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(instance, created, **kwargs):
+def update_profile(instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+    instance.profile.save()
+
+
+class PasswordResetLink(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(primary_key=True,
+                            max_length=176,
+                            unique=True)
+
+    def __str__(self):
+        return str(self.created_at)
+
+    def code_valid(self):
+        time = (timezone.now() - self.created_at).days
+
+        if time < settings.PASSWORD_RESET_TIMEOUT_DAYS:
+            return True
+        self.delete()
+        return False
+
+
+@receiver(pre_save, sender=PasswordResetLink)
+def remove_expired(**kwarg):
+    codes = PasswordResetLink.objects.all()
+    for code in codes:
+        code.code_valid()
+

@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 
 from news.models import Post
-from videos.models import Video
+from videos.models import Video, VideoFile
 from django.contrib.contenttypes.models import ContentType
 from .models import LikeDislike
 
@@ -14,8 +14,9 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
-        context['serials'] = Video.objects.filter(
-            content='series').order_by('-updated_at')[:6]
+        context['series'] = VideoFile.objects.filter(
+            video__content='series'
+        ).order_by('-updated_at')[:6]
         context['movies'] = Video.objects.filter(
             content='movies').order_by('-updated_at')[:6]
         context['posts'] = Post.objects.all()[:6]

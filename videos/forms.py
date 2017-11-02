@@ -1,19 +1,11 @@
 from django import forms
-from .models import Video, VideoScreenshot, VideoFile, WatchingList
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
+from .models import Video, VideoScreenshot, VideoFile, WatchingList, Genre
 from django.utils.translation import ugettext as _
 
 
 class CreateVideoItemForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(CreateVideoItemForm, self).__init__(*args, **kwargs)
-        self.fields['content'].widget.attrs = {
-            'class': 'select select--white'
-        }
-        self.fields['series_status'].widget.attrs = {
-            'class': 'select select--white',
-            'required': False
-        }
 
     original_title = forms.CharField(
         widget=forms.TextInput(
@@ -23,6 +15,11 @@ class CreateVideoItemForm(forms.ModelForm):
                 'autocomplete': 'off'
             })
     )
+
+    genres = forms.ModelMultipleChoiceField(
+        queryset=Genre.objects.all(),
+        widget=FilteredSelectMultiple('genres', is_stacked=False))
+
     description = forms.CharField(
         label=False,
         widget=forms.Textarea(
@@ -32,9 +29,22 @@ class CreateVideoItemForm(forms.ModelForm):
             })
     )
 
+    shots = forms.ImageField(
+        widget=forms.FileInput(attrs={
+            'multiple': True,
+            'required': False
+        })
+    )
+
     class Meta:
         model = Video
-        fields = '__all__'
+        fields = ('content',
+                  'series_status',
+                  'original_title',
+                  'genres',
+                  'poster',
+                  'description',
+                  'shots')
 
     def clean(self):
         data = super(CreateVideoItemForm, self).clean()
@@ -46,12 +56,7 @@ class CreateVideoItemForm(forms.ModelForm):
 
 
 class AddScreenshots(forms.ModelForm):
-    shots = forms.ImageField(
-        widget=forms.FileInput(attrs={
-            'multiple': True,
-            'required': False
-        })
-    )
+
 
     class Meta:
         model = VideoScreenshot

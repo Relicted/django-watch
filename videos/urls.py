@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import (
-    VideoList, VideoDetail, AddVideo, add_screen, watching_now)
+    VideoList, VideoDetail, AddVideo, add_screen, add_watch)
 
 urlpatterns = [
 
@@ -18,6 +18,7 @@ urlpatterns = [
         VideoDetail.as_view(),
         name='video_detail'),
 
+
     #favorites
-    url(r'^watching/(?P<pk>[0-9]+)', watching_now, name='watching'),
+    url(r'^watching/(?P<pk>[0-9]+)', add_watch, name='watching'),
 ]

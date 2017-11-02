@@ -1,16 +1,15 @@
 from django import forms
 
-from .models import Post, Category
-
-
+from .models import Post
+from videos.models import Video
 
 class CreatePostForm(forms.ModelForm):
 
-    category = forms.CharField(max_length=100, required=True)
+    video = forms.ModelMultipleChoiceField(queryset=Video.objects.all())
+
     class Meta:
         model = Post
         exclude = ('user',)
-
 
     def __init__(self, *args, **kwargs):
         super(CreatePostForm, self).__init__(*args, **kwargs)
@@ -20,9 +19,4 @@ class CreatePostForm(forms.ModelForm):
 
     def clean(self):
         data = self.cleaned_data
-        category, created = Category.objects.get_or_create(
-            name=data.get('category')
-        )
-        data['category'] = category
         return data
-

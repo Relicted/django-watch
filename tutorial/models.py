@@ -21,6 +21,8 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def month_name(self):
+        return self.created_at.strftime('%B')[0:3].upper()
 
 class LikeDislike(BaseModel):
     LIKE = 1
@@ -44,4 +46,5 @@ class LikeDislike(BaseModel):
 
     class Meta:
         app_label = 'accounts'
+
 

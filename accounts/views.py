@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.utils.translation import ugettext as _
 # =====
 from .forms import (ProfileForm,
                     PictureForm,
@@ -23,6 +24,7 @@ def profile(request):
         form = ProfileForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
+            messages.success(request, _('Profile updated!'))
             return redirect('settings:profile')
         else:
             return render(request,
@@ -34,9 +36,9 @@ def profile(request):
         if picture.is_valid():
             instance.picture = request.FILES.get('picture')
             instance.save(update_fields=['picture'])
+            messages.success(request, _('Picture updated!'))
             return redirect('settings:profile')
         else:
-            print(picture.errors)
             return render(request,
                           'accounts/settings.html',
                           locals())

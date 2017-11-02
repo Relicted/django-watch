@@ -9,7 +9,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ('user', 'picture')
+        exclude = ('user', 'picture', 'email_confirmed')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

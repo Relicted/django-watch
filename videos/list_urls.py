@@ -1,8 +1,6 @@
 from django.conf.urls import url
-from .views import (
-    VideoList, VideoDetail, AddVideo, add_screen, watching_now)
-from .list_views import (Watchlist,)
+from .views import Watchlist
 
 urlpatterns = [
-    url('^(?P<pk>\d+)/$', Watchlist.as_view(), name='watchlist'),
+    url('^(?P<username>[a-zA-Z0-9]+)/$', Watchlist.as_view(), name='watchlist'),
 ]

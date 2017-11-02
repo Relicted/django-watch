@@ -4,11 +4,12 @@ from .models import (
     VideoScreenshot,
     VideoFile,
     Season,
-    WatchingList
+    WatchingList,
+    Genre
 )
-
+from .forms import CreateVideoItemForm
 # Register your models here.
-
+admin.site.register(Genre)
 admin.site.register(WatchingList)
 
 
@@ -16,13 +17,14 @@ class VideoSeasonTabularInline(admin.TabularInline):
     model = Season
     extra = 0
 
+
 class VideoScreenshotTabularInline(admin.TabularInline):
     model = VideoScreenshot
     extra = 0
 
 
 class VideoAdmin(admin.ModelAdmin):
-
+    form = CreateVideoItemForm
     list_display = ['original_title', 'content', 'id']
     inlines = [
         VideoScreenshotTabularInline,

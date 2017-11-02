@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %}Create Post{% endblock %}
 {% block content %}
     <div class="page-content">
         <div class="col-xs-12">
@@ -8,6 +8,7 @@
                 {% for field in form %}
                 <div class="form-group">
                     <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    {{ field.errors }}
                     {{ field }}
                 </div>
                 {% endfor %}

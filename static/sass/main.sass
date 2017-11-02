@@ -10,7 +10,7 @@
 // BASE SETTINGS
 body
   overflow-x: hidden
-  background: #020407
+  background: #020407!important
 
 .container > .navbar-header,
 .container > .navbar-collapse
@@ -25,7 +25,7 @@ a:focus
   text-decoration: none
 
 ul
-  list-style: none
+  list-style: none!important
   padding: 0
   margin: 0
 li.dropdown:nth-child(1) > a:nth-child(1)
@@ -51,16 +51,6 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   margin: 0px
   border-radius: 0px
 
-.reg-log
-  float: right
-.reg-log a
-  font-size: 21px
-  float: left
-  display: block
-  padding: 10px 13px
-  &:hover
-    color: #fff
-
 .navbar-brand
   padding: 0px
 .navbar-brand img
@@ -73,9 +63,12 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   padding: 15px
   color: #3ec0e1
   min-width: 137px
-
-
-
+.nav-profile-pic
+  padding: 5px!important
+.nav-profile-pic img
+  width: 40px!important
+  border-radius: 50%
+  margin: 0
 // POPUP ANIMATION
 .mfp-fade.mfp-bg
   opacity: 0
@@ -113,16 +106,34 @@ li.dropdown:nth-child(1) > a:nth-child(1)
 
 .page-content
   padding-top: 10px
+  padding-bottom: 10px
   background: rgb(255,255,255)
   &:after
     content: ' '
     display: table
     clear: both
 
+.menu-link
+  color: #fff!important
+
+.reg-log
+  float: right
+
+.reg-log a
+  display: inline-block
+  font-size: 28px
+  color: #fff
+  padding: 5px 10px
 
 .modal-login
   width: 400px
-
+.login-form.title
+  padding: 0 15px
+  font-size: 24px
+.reset-block
+  background: #eeecec
+  padding: 15px
+  border-radius: 5px
 .login-form
   text-align: center
   padding: 15px
@@ -192,6 +203,28 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   background: transparent
     //#020407
 
+.messages
+  position: relative
+
+.messages .error
+  background: #d63d50
+  border-radius: 2px
+  padding: 10px 35px
+  position: relative
+
+.messages .success
+  background: #47b141
+  border-radius: 2px
+  padding: 10px 35px
+  position: relative
+
+.messages .fa-times
+  position: absolute
+  font-size: 18px
+  right: 5px
+  top: 5px
+  color: #4f4f4f
+  cursor: pointer
 
 
 
@@ -201,7 +234,7 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   .poster-btn-grp
     margin-top: 5px
 
-  .video-like-btn.up
+  .like-btn.up
     margin-right: 5px
   .info-line
     margin-bottom: 10px
@@ -230,6 +263,9 @@ li.dropdown:nth-child(1) > a:nth-child(1)
     margin: 0 auto
   #item-fast-info
     display: none!important
+  .col-xs-visible
+    visibility: visible
+    display: inline!important
 @media (min-width: 768px) and (max-width: 992px)
   .poster-btn-grp
     margin-top: 5px
@@ -246,12 +282,23 @@ li.dropdown:nth-child(1) > a:nth-child(1)
     width: auto
   #item-fast-info
     width: 480px
-
+  ul.nav:nth-child(3)
+    float: right
+  li.dropdown:nth-child(1) > ul:nth-child(2)
+    left: -95px
 @media (min-width: 992px) and (max-width: 1200px)
   .user-menu
     float: right
   #video-list .video-list a
     width: auto
+  ul.nav:nth-child(3)
+    float: right
+  li.dropdown:nth-child(1) > ul:nth-child(2)
+    left: -95px
 @media (min-width: 1200px)
   .user-menu
     float: right
+  ul.nav:nth-child(3)
+    float: right
+  li.dropdown:nth-child(1) > ul:nth-child(2)
+    left: -95px

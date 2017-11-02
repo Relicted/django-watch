@@ -1,0 +1,9 @@
+<div>
+Hi {{ user.username }},
+
+    <span style="background:red">Please click on the link below to confirm your registration:</span>
+
+    <a href="http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}">
+        Activation Link
+    </a>
+</div>

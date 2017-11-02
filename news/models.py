@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-
+from django.contrib.contenttypes.models import ContentType
 from comments.models import Comment
 from tutorial.models import BaseModel, LikeDislike
 from .uploads import news_poster_upload
@@ -9,19 +9,22 @@ from .uploads import news_poster_upload
 # Create your models here.
 
 
-class Category(models.Model):
-    name = models.CharField(
-        max_length=100, primary_key=True)
+class Category(BaseModel):
+    name = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
-        return str(self.name)
+        return self.name
+
+    def get_url_name(self):
+        return self.name.replace(' ', '').lower()
 
 
 class Post(BaseModel):
-    category = models.ForeignKey(Category)
-    article = models.CharField(max_length=300)
+    category = models.ManyToManyField(Category)
+    article = models.CharField(max_length=100)
+    description = models.CharField(max_length=300, null=True)
     user = models.ForeignKey(User)
-    text = models.TextField(max_length=4000)
+    text = models.TextField(max_length=10000)
     votes = GenericRelation(LikeDislike, related_query_name='news')
     main_picture = models.ImageField(upload_to=news_poster_upload)
 

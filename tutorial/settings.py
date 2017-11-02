@@ -32,7 +32,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'tutorial.context_processors.getvars',
             ],
         },
     },
@@ -130,13 +130,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
@@ -164,21 +164,18 @@ FILE_UPLOAD_HANDLERS = (
 
 FILE_UPLOAD_TEMP_DIR = os.path.join(MEDIA_ROOT, 'temp')
 
-#ACCOUNT REGISTRATION/AUTHENTICATION SETTINGS
+#ACCOUNT REGISTRATION/AUTHENTICATION/EMAIL SETTINGS
 AUTHENTICATION_BACKENDS = (
-    'accounts.backends.CaseInsensitiveModelBackend',
+    'accounts.auth.backends.CaseInsensitiveModelBackend',
     )
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-
-
+PASSWORD_RESET_TIMEOUT_DAYS = 1
 
 # APP SETTINGS
 PROFILE_PICTURES = 'profile_pictures'
 
 VIDEO_POSTERS = 'video_posters'
-VIDEO_POSTERS_WIDE = 'video_posters_wide'
+VIDEO_FILE_PICTURE = 'video_file_picture'
 VIDEO_SCREENSHOTS = 'video_screenshot'
 
 VIDEO_FILES = 'video_files'

@@ -5,7 +5,7 @@
     <thead>
         <tr>
             <th class="wl-num">#</th>
-            <th class="wl-video"><a href="{% url 'list:watchlist' pk=user.id %}?order=video">Video</a></th>
+            <th class="wl-video"><a href="{% url 'list:watchlist' username=user.username %}?order=video">Video</a></th>
             <th class="wl-type"><a href="">Type</a></th>
             <th class="wl-score"><a href="">Score</a></th>
             <th class="wl-tags"><a href="">Tags</a></th>

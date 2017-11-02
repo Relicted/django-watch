@@ -1,57 +1,142 @@
-.posts-wrap
-  width: 100%
-  display: flex
-  flex-wrap: wrap
-  justify-content: center
-
-.post-block
-  border: 1px solid #dddddd
-  margin-bottom: 15px
-  height: 500px
-  padding: 0
-  margin-right: 50px
-
-.news-poster
-  padding: 0
-.news-poster img
-  max-width: 100%
-  border-radius: 5px
-
-.news-title .title
-  font-family: Saira, sans-serif
-  font-size: 17px
-  text-align: center
-
-.card
-  margin-bottom: 15px
-
-.card-header
-  border: 1px solid #dddddd
-  border-bottom: 0px
-  margin: 0
-  padding: 10px 15px
-  background: #eae5e8
-  border-radius: 5px 5px 0 0
-.card-body
-  padding: 20px
-  border: 1px solid #dddddd
-.create
-  margin-bottom: 10px
-.post
-  margin-bottom: 10px
-  border: 1px solid #dddddd
-  padding: 15px
-  border-radius: 8px
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75)
-  -moz-box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75)
-  box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.75)
-.post .btn-group
-  float: right
-
-.post-detail
-  padding: 15px
 
 .post-detail img
   margin-bottom: 15px
+  border-radius: 10px
+  
 .post-detail .description
   padding: 0 15px
+
+.post-sidebar
+  float: right
+.post-detail
+  float: left
+.latest-news li
+  padding-top: 15px
+  padding-bottom: 15px
+  border-bottom: 1px solid #DDDDDD
+  &:after
+    clear: both
+    content: ''
+    display: table
+
+.post-nav .comments,
+.post-nav .date
+  position: relative
+  margin-left: 10px
+  color: #fff
+  float: right
+  height: 40px
+  border-radius: 2px
+  width: 45px
+  text-align: center
+  font-size: 16px
+  font-weight: 700
+  text-transform: uppercase
+.post-nav .btn-group
+  padding: 5px
+.post-nav .btn-group button
+  width: 100px
+.post-nav > div a
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  z-index: 1
+.post-nav .date span,
+.post-nav .comments span
+  display: block
+  line-height: 20px
+.post-nav .bottom
+  font-size: 14px
+
+.post-nav .date
+  background-color: #c0392b
+.post-nav .comments
+  background-color: #525b85
+.post-nav .bottom
+  background-color: rgba(0, 0, 0, 0.1)
+
+
+
+.img-wrapper
+  padding-left: 0px
+.content-wrapper
+  padding-left: 0
+
+.article-url
+  color: black
+  font-size: 20px
+  margin-bottom: 10px
+  display: block
+  font-weight: 600
+  text-transform: uppercase
+  transition: color 0.2s
+
+.article-url:hover,
+.article-url:focus
+  color: #1a8ec9
+
+.post-nav
+  padding-left: 0
+  position: relative
+  height: 40px
+.post-nav .views,
+.post-nav .love,
+.post-nav .comments
+  display: inline-block
+.news-feed-aside
+  padding: 10px
+  position: relative
+
+.widget
+  margin-top: 20px
+  border-radius: 5px
+
+.widget .header
+  background: #212121!important
+  padding: 10px
+  border-radius: 5px 5px 0 0
+  .item-key
+    margin: 0
+.filter
+  width: 100%!important
+  height: 35px
+  border-radius: 0 0 5px 5px
+  border: none
+  outline: none
+  padding-left: 15px
+  padding-right: 5px
+
+.widget .body
+  border: 1px solid #212121
+  border-top: none
+  border-radius: 0 0 5px 5px
+.categories li a
+  display: block
+  padding: 5px 20px
+  color: black
+  &:hover
+    background: #212121
+    color: red!important
+@media (max-width: 767px)
+
+  .article-url
+    font-size: 14px
+
+  .img-wrapper
+    padding: 0
+  .alter-article
+    display: none
+@media (min-width: 768px) and (max-width: 992px)
+
+  .article-url
+    font-size: 18px
+  #item-fast-info
+    display: none!important
+
+@media (min-width: 993px) and (max-width: 1200px)
+  .article-url
+    font-size: 20px
+@media (min-width: 1200px)
+  .co

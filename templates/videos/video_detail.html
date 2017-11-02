@@ -8,15 +8,16 @@
     <div class="page-content">
         <div class="">
             <div class="info col-xs-12">
-                <p class="video-title">{{ object.original_title }}</p>
+                <p class="detail-title">{{ object.original_title }}</p>
             </div>
-            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 clearfix">
+            <div class="col-sm-5 col-md-4 col-lg-4 clearfix">
                 <div class="poster-grp">
                     <div class="poster">
+                        <div class="poster-img">
                         <a href="{{ object.poster.url }}" class="picture-link">
                             <img src="{{ object.poster.url }}" class="poster-img img-responsive detail-poster" alt="">
                         </a>
-
+                        </div>
                         {% if object.series_status %}
                             <div class="status-tag s-status {{ object.get_series_status_display|lower }}">
                                 <span>{{ object.get_series_status_display }}</span>
@@ -51,11 +52,11 @@
                     </div>
 
                     <div class="btn-group poster-btn-grp clearfix">
-                        <button send-to="{% url 'video_like' pk=object.id %}" data-id="{{ object.id }}" data-action="like" class="btn btn-default video-like-btn up">
+                        <button send-to="{% url 'video_like' pk=object.id %}" data-id="{{ object.id }}" data-action="like" class="btn btn-default like-btn up">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                             <span data-count="like">{{ object.votes.likes.count }}</span>
                         </button>
-                        <button send-to="{% url 'video_dislike' pk=object.id %}" data-id="{{ object.id }}" data-action="dislike" class="btn btn-default video-like-btn down">
+                        <button send-to="{% url 'video_dislike' pk=object.id %}" data-id="{{ object.id }}" data-action="dislike" class="btn btn-default like-btn down">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                             <span data-count="dislike">{{ object.votes.dislikes.count }}</span>
                         </button>
@@ -68,7 +69,12 @@
                     <hr>
                     <div class="item-info">
                         <span class="item-key col-xs-4">{% trans 'Genres' %}:</span>
-                        <span class="item-value col-xs-8"></span>
+                        <span class="item-value col-xs-8">
+                            {% for genre in object.genres.all %}
+                                <a href="">{{ genre }}</a>
+                            {% endfor %}
+
+                        </span>
                     </div>
                      <div class="item-info">
                         <span class="item-key col-xs-4">{% trans 'Year' %}:</span>
@@ -82,7 +88,6 @@
                         <span class="item-key col-xs-4">{% trans 'Countries' %}:</span>
                         <span class="item-value col-xs-8"></span>
                     </div>
-
                 </div>
             </div>
 
@@ -99,9 +104,66 @@
                 <p class="item-key">{% trans 'Story' %}:</p>
                 <p class="item-value">{{ object.description }}</p>
             </div>
+
+            {% if object.seasons %}
+            <div class="seasons col-md-8">
+                <p class="item-key">{% trans 'Seasons' %}:</p>
+                <ul id="row-tabs" class="nav nav-tabs" role="tablist">
+                {% for s in object.seasons.all %}
+                    <li class=""><a href="#s-block-{{ s.number }}" role="tab" data-toggle="tab" id="s{{s.number}}-switch" aria-controls="s-block-{{ s.number }}">{{ s.number }}</a></li>
+                {% endfor %}
+                </ul>
+
+                <div class="tab-content">
+                {% for s in object.seasons.all %}
+                    <div role="tabpanel" class="tab-pane fade" id="s-block-{{ s.number }}">
+                    {% for file in s.files.all %}
+                    <div class="file-item">
+                        <a href="{{ file.file.url }}" class="overlay-link">
+                            <img class="img-responsive" src="{{ file.picture.url }}" alt="">
+                            <span class="bck"></span>
+                        </a>
+                        <p class="item-key">{{ file.name }}</p>
+                    </div>
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
-        {% include 'snippets/comments.html' %}
+        <div class="posts col-xs-12">
+        <ul id="row-sub-content" class="nav nav-tabs" role="tablist">
+            <li class=""><a href="#block-news" role="tab" id="news-switch" data-toggle="tab" aria-controls="block-news">{% trans 'Latest News' %}</a></li>
+            <li class=""><a href="#block-comments" role="tab" id="comments-switch" data-toggle="tab" aria-controls="block-comments">{% trans 'Comments' %}</a></li>
+        </ul>
+        <div class="tab-content black">
+            <div role="tabpanel" class="tab-pane fade" id="block-news">
+                {% for n in object.get_last_news %}
+                    <figure class="snip1216">
+                        <div class="image"><img src="{{ n.main_picture.url }}" alt=""/></div>
+                        <figcaption>
+                            <div class="date"><span class="day">{{n.created_at.day}}</span><span class="month">{{n.created_at.month}}</span></div>
+                            <h3>{{ n.article }}</h3>
+                            <p class="">{{ n.description }}</p>
+                        </figcaption>
+                        <footer>
+                            <div class="views"><i class="fa fa-eye" aria-hidden="true"></i></div>
+                            <div class="love"><i class="fa fa-heart" aria-hidden="true"></i>{{ n.votes.likes.count }}</div>
+                            <div class="comments"><i class="fa fa-comment" aria-hidden="true"></i>  {{n.comments.all.count}}</div>
+                        </footer><a href="{% url 'news:post_detail' pk=n.pk %}"></a>
+                    </figure>
+                {% endfor %}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="block-comments">
+
+            </div>
+        </div>
+
     </div>
+    <footer>
+
+    </footer>
     {% if not user.is_authenticated %}
     {% include 'snippets/login_modal.html' %}
     {% endif %}

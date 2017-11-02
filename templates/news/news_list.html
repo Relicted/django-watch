@@ -1,59 +1,93 @@
 {% extends 'base.html' %}
-
+{% load static i18n %}
 {% block title %}Watchlist - News{% endblock %}
 {% block content %}
 <div class="page-content">
-    <div class="col-md-8">
+    <div class="col-md-9">
+    <span class="detail-title">{% trans 'Latest News' %}</span>
+    <ul class="latest-news">
     {% for post in list %}
-     <!-- Blog Post -->
-        <div class="post">
-            <img class="img-responsive" src="{{ post.main_picture.url }}" alt="Card image cap">
-            <div class="">
-                <h2 class="">{{ post.article }}</h2>
-                <a href="{% url 'news:post_detail' pk=post.id %}" class="btn btn-primary">Read More →</a>
-                <div class="btn-group clearfix col-xs-7 col-md-5">
-                    <button send-to="{% url 'post_like' pk=post.id %}" data-id="{{ post.id }}" data-action="like" class="btn btn-default video-like-btn up">
-                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        <span data-count="like">{{ post.votes.likes.count }}</span>
-                    </button>
-                    <button send-to="{% url 'post_dislike' pk=post.id %}" data-id="{{ post.id }}" data-action="dislike" class="btn btn-default video-like-btn down">
-                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                        <span data-count="dislike">{{ post.votes.dislikes.count }}</span>
-                    </button>
+        <li>
+            <div class="img-wrapper col-md-5">
+                <img class="img-responsive" src="{{ post.main_picture.url }}" alt="">
+            </div>
+            <div class="content-wrapper col-md-7">
+                <a class="article-url" href="{% url 'news:post_detail' pk=post.pk %}">{{ post.article }}</a>
+                <p class="alter-article">{{ post.description }}</p>
+            </div>
+            <div class="post-nav col-xs-12">
+{#                <div class="btn-group">#}
+{#                    <button class="btn btn-default like-btn up" class="btn" send-to="{% url 'post_like' pk=post.id %}" data-id="{{ post.id }}" data-action="like">#}
+{#                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>#}
+{#                        <span data-count="like">{{ post.votes.likes.count }}</span>#}
+{#                    </button>#}
+{#                    <button class="btn btn-default like-btn down" send-to="{% url 'post_dislike' pk=post.id %}" data-id="{{ post.id }}" data-action="dislike">#}
+{#                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>#}
+{#                        <span data-count="dislike">{{ post.votes.dislikes.count }}</span>#}
+{#                    </button>#}
+{#                </div>#}
+                <div class="date">
+                    <span class="top">{{post.created_at.day}}</span>
+                    <span class="bottom">{{post.month_name}}</span>
                 </div>
-                <a href="{% url 'news:post_detail' pk=post.id %}#post_comments" class="btn btn-primary">Comments: {{ post.comments.all.count }}</a>
+                <div class="comments">
+                    <span class="top"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                    <span class="bottom">{{post.comments.all.count}}</span>
+                    <a href="{% url 'news:post_detail' pk=post.pk %}"></a>
+                </div>
             </div>
-        </div>
+        </li>
     {% endfor %}
-    </div>
+    </ul>
 
-    <div class="col-md-4">
-        <a href="{% url 'news:post_create' %}" class="btn btn-default create">Create Post</a>
-        <!-- Search Widget -->
-        <div class="card my-4">
-            <h3 class="card-header">Search</h3>
-            <div class="card-body">
-                <form action="" method="get">
-                    <div class="input-group">
-                        <input name="q" type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="submit">Go!</button>
-                        </span>
-                    </div>
-                </form>
+    {% if is_paginated %}
+
+    <nav class="pagi-nav text-center clearfix">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class=""><a href="?page={{ object_list.previous_page_number }}{{ getvars }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            {% else %}
+            <li class="disabled"><a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+               <li class="{% if page_obj.number == page %}active{% endif %}"><a href="?page={{ page }}{{ getvars }}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}{{ getvars }}"><span aria-hidden="true">»</span></a></li>
+            {% else %}
+            <li class="disabled"><a href=""><span aria-hidden="true">»</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    </div>
+    <aside class="col-md-3 news-feed-aside">
+        <div class="widget">
+            <div class="header">
+                <p class="item-key white">{% trans 'Filter' %}</p>
+            </div>
+            <div class="body">
+                <input class="filter" id="news-filter" send-to="{% url 'news:list_news' %}" type="text" name="filter" placeholder="Text...">
             </div>
         </div>
-        <!-- Category Widget -->
-        <div class="card my-4">
-            <h3 class="card-header">Categories</h3>
-            <div class="card-body">
-                <ul>
-                    <li><a href="?cat=tv_show">TV Show</a></li>
-                    <li><a href="?cat=movies">Movies</a></li>
-                    <li><a href="">Actors</a></li>
+
+        <div class="widget">
+            <div class="header">
+                <p class="item-key white">{% trans 'Categories' %}</p>
+            </div>
+            <div class="body">
+                <ul class="categories">
+                    <li><a href="?">{% trans 'All News' %}</a></li>
+                    {% for cat in categories %}
+                    <li><a href="?cat={{ cat.pk }}">{{ cat.name }}</a></li>
+                    {% endfor %}
+
                 </ul>
             </div>
         </div>
-    </div>
+    </aside>
+{% include 'snippets/login_modal.html' %}
 </div>
 {% endblock %}

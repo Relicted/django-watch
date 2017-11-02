@@ -3,23 +3,21 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-
 from accounts.views import profile_view
 from news.models import Post
 from tutorial.models import LikeDislike
 from videos.models import Video
 from .views import Home, SearchResult, Votes
 
-app_name = 'ajax'
-
 urlpatterns = [
     # ADMIN
     url(r'^admin/', admin.site.urls),
-    #HOMEPAGE SEARCH
+
+    # HOMEPAGE SEARCH
     url(r'^$', Home.as_view(), name='home'),
     url(r'^search/$', SearchResult.as_view(), name='search-result'),
 
-    #LIKES
+    # LIKES
     url(r'^video/(?P<pk>\d+)/like/$',
         login_required(Votes.as_view(model=Video, vote_type=LikeDislike.LIKE)),
         name='video_like'),
@@ -34,11 +32,11 @@ urlpatterns = [
         name='post_dislike'),
 
 
-    #VIDEO
+    # VIDEO
     url(r'^video/', include('videos.urls', namespace='video')),
     url(r'^list/', include('videos.list_urls', namespace='list')),
 
-    #NEWS
+    # NEWS
     url(r'^news/', include('news.urls', namespace='news')),
 
     # REGISTRATION, LOGIN, Profiles
