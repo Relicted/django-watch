@@ -19,3 +19,7 @@ def is_profile(value):
     if value == profile:
         return True
 
+
+@register.filter('fieldtype')
+def fieldtype(field):
+    return field.field.widget.__class__.__name__.lower()

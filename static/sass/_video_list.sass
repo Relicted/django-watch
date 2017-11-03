@@ -19,7 +19,7 @@
   margin-top: 10px
   text-align: center
   .video-item
-    max-width: 270px
+    max-width: 320px
     display: inline-block
 
 .serial-list
@@ -128,19 +128,19 @@ h2
   bottom: 5px
   font-size: 15px
   transition: 0.2s color
+  font-family: "Saira", sans-serif
 
 .video-item:hover .white-title
   color: #1a8ec9
 
 
-.bck > .play-icon > img
+.video-item > .bck > .play-icon > img
   display: inline-block
   height: 0
-
   transition: .3s
 
 
-.bck > .play-icon
+.video-item > .bck > .play-icon
   display: block
   position: relative
   z-index: 1
@@ -150,10 +150,10 @@ h2
   visibility: hidden
   transition: margin-top 0.3s
 
-.bck:hover > .play-icon > img
+.video-item:hover > .bck > .play-icon > img
   height: 100px
 
-.bck:hover > .play-icon
+.video-item:hover > .bck >.play-icon
   margin-top: 90px
   visibility: visible
 .video-item > .fa

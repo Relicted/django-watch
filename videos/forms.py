@@ -10,8 +10,6 @@ class CreateVideoItemForm(forms.ModelForm):
     original_title = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': 'Original Title',
                 'autocomplete': 'off'
             })
     )
@@ -22,19 +20,29 @@ class CreateVideoItemForm(forms.ModelForm):
 
     description = forms.CharField(
         label=False,
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-                'placeholder': _('Description')
-            })
+        widget=forms.Textarea()
     )
-
+    poster = forms.ImageField(
+        label=_('Upload Poster'),
+        widget=forms.FileInput(
+            attrs={'class': 'hidden'}
+        )
+    )
     shots = forms.ImageField(
         widget=forms.FileInput(attrs={
             'multiple': True,
             'required': False
         })
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            if not self.fields[field].widget.__class__.__name__ == 'FileInput':
+                self.fields[field].widget.attrs = {
+                    'placeholder': self.fields[field].label
+                }
+                self.fields[field].label = ''
 
     class Meta:
         model = Video

@@ -17,12 +17,13 @@ from django.db.models import Q
 class ListNews(ListView):
     template_name = 'news/news_list.html'
     context_object_name = 'list'
-    paginate_by = 3
+    paginate_by = 20
 
     def post(self, request, *args, **kwargs):
         print('got post request', request.POST)
         data={}
         return JsonResponse(data)
+
     def get_context_data(self, **kwargs):
         context = super(ListNews, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all().order_by('name')

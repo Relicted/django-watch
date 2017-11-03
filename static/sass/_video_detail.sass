@@ -214,7 +214,6 @@ hr
 .seasons
   margin-top: 15px
 
-
 #season-tabs a
   margin: 0
   outline: none
@@ -234,10 +233,10 @@ hr
 #row-sub-content li.active a
   background: #212121
   border-left: none
-  color: #fff
+  color: #ff395b
   &:focus,
   &:hover
-    color: #fff!important
+    color: #ff395b!important
 #row-sub-content li a
   user-select: none
   color: #212121
@@ -251,18 +250,12 @@ hr
   display: inline-block
   max-width: 160px
 .overlay-link
-  position: relative
-  z-index: 5
-  display: block
-  width: 100%
-  height: 100%
-.overlay-link .bck
-  display: block
-  width: 100%
-  height: 100%
   position: absolute
   top: 0
-  transition: 0.2s
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 5
 .file-item:hover .bck
   background: rgba(0,0,0,0.76)
 .file-item:hover .item-key
@@ -280,6 +273,11 @@ hr
   padding-right: 0
   clear: both
   //background: #212121!important
+
+#block-news.active
+  display: flex
+  justify-content: center
+  flex-wrap: wrap
 .posts figure
   display: inline-block
 .descr

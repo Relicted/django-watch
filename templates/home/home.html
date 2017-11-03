@@ -3,11 +3,6 @@
 {% block title %}Watchlist - Main{% endblock %}
 {% block content %}
 <div class="page-content">
-
-    <section id="last-news">
-
-    </section>
-
     <section id="last-add-serials" class="col-xs-12">
         <div class="last-item-wrapper">
              <div class="section-title col-xs-12">
@@ -15,7 +10,7 @@
                     <a href="{% url 'video:series' %}">{% trans 'TV Show' %}</a>
                 </div>
             </div>
-            <div class="title-bar">{% trans 'Last Updates' %}
+            <div class="title-bar">{% trans 'new episodes' %}
             </div>
             <div class="video-item-wrap-home">
                 {% for i in series %}
@@ -47,8 +42,31 @@
             </div>
         </div>
     </section>
-    <section id="last-news">
-
+    <section id="last-news" class="col-xs-12">
+        <div class="section-title col-xs-12">
+            <a href="{% url 'news:list_news' %}">{% trans 'news' %}</a>
+        </div>
+        {% for n in posts %}
+        <figure class="snip1216">
+            <div class="image"><img src="{{ n.main_picture.url }}" alt=""/></div>
+            <figcaption>
+                <div class="date"><span class="day">{{n.created_at.day}}</span><span class="month">{{n.created_at.month}}</span></div>
+                <h3>{{ n.article }}</h3>
+                <p class="">{{ n.description }}</p>
+            </figcaption>
+            <footer>
+                <div class="views"><i class="fa fa-eye" aria-hidden="true"></i></div>
+                <div class="love"><i class="fa fa-heart" aria-hidden="true"></i>{{ n.votes.likes.count }}</div>
+                <div class="comments"><i class="fa fa-comment" aria-hidden="true"></i>  {{n.comments.all.count}}</div>
+            </footer><a href="{% url 'news:post_detail' pk=n.pk %}"></a>
+        </figure>
+        {% endfor %}
+        <div class="col-xs-12 text-center">
+            <div class="btn-shiny">
+                {% trans 'More News'%}
+                <a href="{% url 'news:list_news' %}" class="overlay-link"></a>
+            </div>
+        </div>
     </section>
 </div>
     {% if not user.is_authenticated %}

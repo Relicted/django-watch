@@ -2,32 +2,66 @@
 {% load static i18n %}
 
 {% block content %}
-    <div class="page-content">
-        <div class="col-md-4">
-            <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-                {% for field in form %}
-                    <div class="form-group {% if field.errors %}has-error{% endif %}">
-                        {{ field.errors }}
-                        {% if field.name == 'shots' %}
-                            <label class="btn btn-primary" send-to="{{ screen_ajax_url }}" for="id_{{ field.name }}">{{ field.label }}</label>
-                        {% else %}
-                            <label for="id_{{ field.name }}">{{ field.label }}</label>
-                        {% endif %}
-                        {% if field.name == 'genres' %}
-                            <div class="selector">
-                            {{ field }}
-                            </div>
-                        {% else %} {{ field }}
-                        {% endif %}
+{#    <div class="page-content">#}
+{#        <div class="col-md-4">#}
+{#            <form action="" method="post" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#                {% for field in form %}#}
+{#                    <div class="form-group {% if field.errors %}has-error{% endif %}">#}
+{#                        {{ field.errors }}#}
+{#                        {% if field.name == 'shots' %}#}
+{#                            <label class="btn btn-primary" send-to="{{ screen_ajax_url }}" for="id_{{ field.name }}">{{ field.label }}</label>#}
+{#                        {% else %}#}
+{#                            <label for="id_{{ field.name }}">{{ field.label }}</label>#}
+{#                        {% endif %}#}
+{#                        {% if field.name == 'genres' %}#}
+{#                            <div class="selector">#}
+{#                            {{ field }}#}
+{#                            </div>#}
+{#                        {% else %} {{ field }}#}
+{#                        {% endif %}#}
+{##}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#                <div class="shots">#}
+{#                    <div id="shots-uploaded"></div>#}
+{#                    <div id="shot-progressbar" class="progress">#}
+{#                        <div id="shots-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">#}
+{#                        0%#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
 
-                    </div>
+{#                <div class="btn-section">#}
+{#                    <button type="submit" class="btn btn-primary">Create</button>#}
+{#                    <button type="button" class="btn btn-default">Leave</button>#}
+{#                </div>#}
+{#            </form>#}
+{##}
+{##}
+{#        </div>#}
+{#    </div>#}
+    <div class="page-content create-page">
+        <div class="col-xs-12 col-md-6">
+            <div class="detail-title col-xs-12">
+                {% trans 'Create Video' %}
+            </div>
+            <form id="create-form" action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-field">
+                {% if field.label %}
+                    <p><label class="btn btn-default" for="{{ field.id_for_label }}">{{ field.label }}</label></p>
+                {% endif %}
+                    {{ field.errors }}
+                    {{ field }}
+                </div>
                 {% endfor %}
-                <div class="shots">
+                <div class="shots" style="padding-left:60px;padding-right:60px">
                     <div id="shots-uploaded"></div>
                     <div id="shot-progressbar" class="progress">
                         <div id="shots-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                        0%
+
                         </div>
                     </div>
                 </div>
@@ -38,13 +72,21 @@
                     </button>
                     <div class="seasons-switch"></div>
                 </div>
-                <div class="btn-section">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <button type="button" class="btn btn-default">Leave</button>
+
+                <div class="col-xs-12 submit-section" style="background: inherit;">
+                    <button type="submit" class="btn-shiny submit">
+                        {% trans 'Create'%}
+                    </button>
                 </div>
             </form>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="detail-title col-xs-12">
+                {% trans 'Video Preview' %}
+            </div>
+            <div class="create-preview">
 
-
+            </div>
         </div>
     </div>
 

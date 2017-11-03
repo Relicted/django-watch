@@ -2,7 +2,6 @@ from django.views.generic import TemplateView, ListView
 from django.views import View
 from django.http import JsonResponse
 from django.db.models import Q
-
 from news.models import Post
 from videos.models import Video, VideoFile
 from django.contrib.contenttypes.models import ContentType

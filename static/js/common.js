@@ -282,6 +282,7 @@ $(document).ready(function () {
     // REMEMBER ACTIVE TAB ON REFESH
 
     $('#row-tabs li:first-child').addClass('active');
+    $('#row-tabs li a').tab('show')
     $('#row-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 
         localStorage.setItem(`lastTab`, $(e.target).attr('id'));
@@ -293,6 +294,7 @@ $(document).ready(function () {
     }
 
     $('#row-sub-content li:first-child').addClass('active');
+    $('#row-sub-content li a').tab('show')
     $('#row-sub-content a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 
         localStorage.setItem(`subTab`, $(e.target).attr('id'));
@@ -302,8 +304,6 @@ $(document).ready(function () {
     if (subTab) {
         $('#' + subTab).tab('show');
     }
-
-
 
 
 });
