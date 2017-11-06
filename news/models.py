@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from comments.models import Comment
 from tutorial.models import BaseModel, LikeDislike
 from .uploads import news_poster_upload
-
+from django.utils.translation import ugettext as _
 # Create your models here.
 
 
@@ -22,11 +22,12 @@ class Category(BaseModel):
 class Post(BaseModel):
     category = models.ManyToManyField(Category)
     article = models.CharField(max_length=100)
-    description = models.CharField(max_length=300, null=True)
+    description = models.CharField(max_length=600, null=True)
     user = models.ForeignKey(User)
     text = models.TextField(max_length=10000)
     votes = GenericRelation(LikeDislike, related_query_name='news')
-    main_picture = models.ImageField(upload_to=news_poster_upload)
+    main_picture = models.ImageField(upload_to=news_poster_upload,
+                                     verbose_name=_('Upload Picture'))
 
     comments = GenericRelation(Comment)
 

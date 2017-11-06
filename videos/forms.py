@@ -31,7 +31,7 @@ class CreateVideoItemForm(forms.ModelForm):
     shots = forms.ImageField(
         widget=forms.FileInput(attrs={
             'multiple': True,
-            'required': False
+            'required': False,
         })
     )
 

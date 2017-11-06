@@ -1,26 +1,20 @@
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext as _
 from .models import Post
 from videos.models import Video
 
 class CreatePostForm(forms.ModelForm):
+    #
+    # videos = forms.CharField(
+    #     label='Related Videos',
+    #     help_text='CREATE AJAX SEARCH AND CHECKBOX FOR VIDEO'
+    # )
 
-    videos = forms.CharField(
-        label='Related Videos',
-        help_text='CREATE AJAX SEARCH AND CHECKBOX FOR VIDEO'
-    )
-
-    text = forms.CharField(
-        widget=forms.Textarea(
-            attrs={'rows': '10'}
-        )
-    )
-
-    main_picture = forms.ImageField(
-        label=_('Upload Picture'),
-        widget=forms.FileInput(
-            attrs={'class': 'hidden'}
-        )
+    video = forms.ModelMultipleChoiceField(
+        queryset=Video.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple()
     )
 
     def __init__(self, *args, **kwargs):
@@ -35,6 +29,11 @@ class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
         exclude = ('user',)
+        widgets = {
+            'description': forms.Textarea(),
+            'text': forms.Textarea(),
+            'main_picture': forms.FileInput(attrs={'class': 'hidden'})
+        }
 
     def clean(self):
         data = self.cleaned_data

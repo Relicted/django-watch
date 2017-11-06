@@ -269,6 +269,9 @@ hr {
   display: inline-block;
   max-width: 160px; }
 
+.file-item img {
+  max-height: 90px; }
+
 .overlay-link {
   position: absolute;
   top: 0;
@@ -335,7 +338,12 @@ hr {
   text-align: center; }
   .video-item-wrap-home .video-item {
     max-width: 320px;
-    display: inline-block; }
+    max-height: 180px;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 2px 5px 0px #212121;
+    -moz-box-shadow: 0px 2px 5px 0px #212121;
+    box-shadow: 0px 2px 5px 0px #212121; }
 
 .serial-list {
   padding-left: 15px;
@@ -404,7 +412,6 @@ hr {
   color: #fff; }
 
 .video-item .bck {
-  border-radius: 6px;
   z-index: 5;
   position: absolute;
   width: 100%;
@@ -425,7 +432,7 @@ hr {
   width: 100%;
   bottom: 0;
   left: 0;
-  border-radius: 6px;
+  border-radius: 0;
   background: -webkit-linear-gradient(bottom, rgba(255, 0, 0, 0), red);
   background: -o-linear-gradient(bottom, rgba(255, 0, 0, 0), red);
   background: -moz-linear-gradient(bottom, rgba(255, 0, 0, 0), red);
@@ -865,7 +872,8 @@ li.success {
   height: 40px; }
 
 .form-field input[type='text'],
-.form-field textarea {
+.form-field textarea,
+.form-field input[type='email'] {
   display: inline-block;
   border-radius: 3px;
   box-sizing: border-box;
@@ -880,6 +888,9 @@ li.success {
   width: 80%;
   padding: 5px 10px; }
 
+.form-field textarea {
+  min-height: 200px; }
+
 .create-preview {
   height: 300px;
   width: 100%;
@@ -888,6 +899,9 @@ li.success {
 body {
   overflow-x: hidden;
   background: #020407 !important; }
+
+.container {
+  position: relative; }
 
 .container > .navbar-header,
 .container > .navbar-collapse {
@@ -1051,9 +1065,10 @@ li.dropdown:nth-child(1) > a:nth-child(1) {
   font-size: 24px; }
 
 .reset-block {
-  background: #eeecec;
+  background: #292c2f;
   padding: 15px;
-  border-radius: 5px; }
+  border-radius: 5px;
+  color: #fff; }
 
 .login-form {
   text-align: center;
@@ -1127,19 +1142,41 @@ li.dropdown:nth-child(1) > a:nth-child(1) {
   background: transparent; }
 
 .messages {
-  position: relative; }
+  position: relative;
+  width: 300px; }
+
+#popup-messages-content {
+  position: fixed !important;
+  top: 35px;
+  right: 0;
+  z-index: 100; }
+
+.messages .msg {
+  border-radius: 2px;
+  padding: 10px 35px;
+  position: relative;
+  margin: 5px 0; }
 
 .messages .error {
-  background: #d63d50;
-  border-radius: 2px;
-  padding: 10px 35px;
-  position: relative; }
+  background: #d63d50; }
 
 .messages .success {
-  background: #47b141;
-  border-radius: 2px;
-  padding: 10px 35px;
+  background: #47b141; }
+
+.msg {
   position: relative; }
+
+.close-btn {
+  display: block;
+  position: absolute;
+  background: transparent;
+  right: 0;
+  top: 0;
+  padding: 20px; }
+  .close-btn .fa {
+    line-height: 0.9;
+    font-size: 22px !important;
+    padding: 5px 10px; }
 
 .messages .fa-times {
   position: absolute;
@@ -1152,6 +1189,11 @@ li.dropdown:nth-child(1) > a:nth-child(1) {
 .comment-box:after {
   content: '';
   display: table;
+  clear: both; }
+
+.comment:after {
+  display: block;
+  content: '';
   clear: both; }
 
 #last-add-serials:after {

@@ -117,4 +117,3 @@ def remove_expired(**kwarg):
     codes = PasswordResetLink.objects.all()
     for code in codes:
         code.code_valid()
-

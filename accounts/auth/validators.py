@@ -12,6 +12,7 @@ CUSTOM_RESERVED_NAMES = [
     'media',
     'profile',
     'news',
+    'messages'
 ]
 
 

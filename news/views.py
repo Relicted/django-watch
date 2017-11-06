@@ -18,18 +18,16 @@ class ListNews(ListView):
     template_name = 'news/news_list.html'
     context_object_name = 'list'
     paginate_by = 20
-
-    def post(self, request, *args, **kwargs):
-        print('got post request', request.POST)
-        data={}
-        return JsonResponse(data)
-
     def get_context_data(self, **kwargs):
         context = super(ListNews, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all().order_by('name')
         return context
 
     def get_queryset(self):
+
+        if self.request.is_ajax():
+            return Post.objects.filter(category__name__icontains='tv show')
+
         q = self.request.GET.get('cat')
         search = self.request.GET.get('search')
         if q:

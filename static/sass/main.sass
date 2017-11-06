@@ -12,7 +12,8 @@
 body
   overflow-x: hidden
   background: #020407!important
-
+.container
+  position: relative
 .container > .navbar-header,
 .container > .navbar-collapse
   margin: 0
@@ -164,9 +165,10 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   padding: 0 15px
   font-size: 24px
 .reset-block
-  background: #eeecec
+  background: #292c2f
   padding: 15px
   border-radius: 5px
+  color: #fff
 .login-form
   text-align: center
   padding: 15px
@@ -235,21 +237,38 @@ li.dropdown:nth-child(1) > a:nth-child(1)
 .page-content.home-page
   background: transparent
     //#020407
-
 .messages
   position: relative
-
+  width: 300px
+#popup-messages-content
+  position: fixed!important
+  top: 35px
+  right: 0
+  z-index: 100
+.messages .msg
+  border-radius: 2px
+  padding: 10px 35px
+  position: relative
+  margin: 5px 0
 .messages .error
   background: #d63d50
-  border-radius: 2px
-  padding: 10px 35px
-  position: relative
-
 .messages .success
   background: #47b141
-  border-radius: 2px
-  padding: 10px 35px
+
+.msg
   position: relative
+.close-btn
+  display: block
+  position: absolute
+  background: transparent
+  right: 0
+  top: 0
+  padding: 20px
+
+  .fa
+    line-height: 0.9
+    font-size: 22px!important
+    padding: 5px 10px
 
 .messages .fa-times
   position: absolute
@@ -263,6 +282,11 @@ li.dropdown:nth-child(1) > a:nth-child(1)
   &:after
     content: ''
     display: table
+    clear: both
+.comment
+  &:after
+    display: block
+    content: ''
     clear: both
 
 #last-add-serials:after

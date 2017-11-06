@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+Watchlist
+{% endblock %}
+
+{% block content %}
+    <div class="page-content">
+        {% for msg in messages %}
+            {{ msg }}
+        {% endfor %}
+    </div>
+{% endblock %}

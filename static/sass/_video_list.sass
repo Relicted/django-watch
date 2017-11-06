@@ -20,7 +20,12 @@
   text-align: center
   .video-item
     max-width: 320px
+    max-height: 180px
     display: inline-block
+    overflow: hidden
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(33,33,33,1)
+    -moz-box-shadow: 0px 2px 5px 0px rgba(33,33,33,1)
+    box-shadow: 0px 2px 5px 0px rgba(33,33,33,1)
 
 .serial-list
   padding-left: 15px
@@ -91,7 +96,7 @@
 
 
 .video-item .bck
-  border-radius: 6px
+
   z-index: 5
   position: absolute
   width: 100%
@@ -110,7 +115,7 @@
   width: 100%
   bottom: 0
   left: 0
-  border-radius: 6px
+  border-radius: 0
   background: -webkit-linear-gradient(bottom, rgba(255,0,0,0), rgba(255,0,0,1))
   background: -o-linear-gradient(bottom, rgba(255,0,0,0), rgba(255,0,0,1))
   background: -moz-linear-gradient(bottom, rgba(255,0,0,0), rgba(255,0,0,1))

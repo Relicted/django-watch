@@ -38,6 +38,7 @@ def add_screen(request):
 
     if request.method == "POST":
         files = request.FILES.getlist('files')
+        print(files)
         if len(files) > 10:
             return JsonResponse(data={'errors': _('Max_length 10')})
         else:

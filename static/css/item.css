@@ -35,7 +35,7 @@ figure.snip1216 img {
 figure.snip1216 figcaption {
   padding: 15px;
   position: relative;
-  min-height: 290px
+  min-height: 380px
 }
 figure.snip1216 .date {
   background-color: #c0392b;
@@ -253,6 +253,18 @@ figure.snip1216.hover img {
 
 	width: 400px;
 	padding: 18px;
+}
+.footer-distributed form select {
+	width: 100%;
+	padding: 10px;
+	background-color:  #1f2022;
+	border: none;
+	color: #5c666b;
+	font-weight: normal;
+	font-size: 14px;
+	box-sizing: border-box;
+	margin-bottom: 15px;
+	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
 }
 
 .footer-distributed ::-webkit-input-placeholder {

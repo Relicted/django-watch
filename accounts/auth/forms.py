@@ -1,17 +1,12 @@
 from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.forms import ModelForm
-from django.contrib.auth.forms import PasswordChangeForm
 from .validators import UserRegValid
 from django.contrib.auth.forms import PasswordChangeForm, UsernameField
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.db.models import Q
-
-import re
 
 class CustomAuthenticationForm(AuthenticationForm):
 
@@ -111,7 +106,6 @@ class ResetPasswordEmailForm(forms.Form):
 
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
-            'class': 'form-control',
             'placeholder': 'Email Address'
         })
     )

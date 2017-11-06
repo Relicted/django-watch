@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views import View
 from django.http import JsonResponse
@@ -6,7 +7,8 @@ from news.models import Post
 from videos.models import Video, VideoFile
 from django.contrib.contenttypes.models import ContentType
 from .models import LikeDislike
-
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 class Home(TemplateView):
     template_name = 'home/home.html'
@@ -64,3 +66,4 @@ class Votes(View):
         }
 
         return JsonResponse(data, content_type='application/json')
+

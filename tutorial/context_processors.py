@@ -1,3 +1,4 @@
+
 def getvars(request):
     """
     Builds a GET variables string to be uses in template links like pagination

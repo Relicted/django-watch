@@ -16,7 +16,7 @@ urlpatterns = [
     # HOMEPAGE SEARCH
     url(r'^$', Home.as_view(), name='home'),
     url(r'^search/$', SearchResult.as_view(), name='search-result'),
-
+    url(r'^messages/', include('comments.urls', namespace='messages')),
     # LIKES
     url(r'^video/(?P<pk>\d+)/like/$',
         login_required(Votes.as_view(model=Video, vote_type=LikeDislike.LIKE)),

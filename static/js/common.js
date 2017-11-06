@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+
+    $(document).ajaxStart(function () {
+        console.log('AJAX START')
+    }).ajaxStop(function () {
+        console.log('AJAX STOP')
+    });
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -183,7 +190,6 @@ $(document).ready(function () {
                 return xhr;
             },
             type: 'POST',
-            method: 'POST',
             url : $('label[for="id_shots"]').attr('send-to'),
             data : data,
             processData : false,
@@ -282,7 +288,6 @@ $(document).ready(function () {
     // REMEMBER ACTIVE TAB ON REFESH
 
     $('#row-tabs li:first-child').addClass('active');
-    $('#row-tabs li a').tab('show')
     $('#row-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 
         localStorage.setItem(`lastTab`, $(e.target).attr('id'));
@@ -294,7 +299,7 @@ $(document).ready(function () {
     }
 
     $('#row-sub-content li:first-child').addClass('active');
-    $('#row-sub-content li a').tab('show')
+    $('#row-sub-content li a').tab('show');
     $('#row-sub-content a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 
         localStorage.setItem(`subTab`, $(e.target).attr('id'));
@@ -304,6 +309,48 @@ $(document).ready(function () {
     if (subTab) {
         $('#' + subTab).tab('show');
     }
+
+    $('#footer_form').on('submit', function (e) {
+        e.preventDefault();
+        console.log($(this).attr('action'));
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (data) {
+                update_messages(data.messages)
+            }
+        })
+    });
+
+
+
+    $('#test-ajax').on('click', function (e) {
+        e.preventDefault()
+        $.ajax({
+            url: $(this).attr('send-to'),
+            type: 'GET',
+            data: {'csrfmiddlewaretoken': csrftoken},
+            success: function () {
+                console.log(123)
+                $('.latest-news').load(location.href + ' .latest-news')
+            }
+        })
+    });
+
+
+    function update_messages(messages) {
+        $.each(messages, function (i, m) {
+            $("#popup-messages-content").append(
+                `<div class='msg animated bounceInRight go ${m.tags}''>
+                    ${m.message}
+                </div>`
+            );
+        });
+    }
+
+
+
 
 
 });

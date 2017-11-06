@@ -1,10 +1,10 @@
-import os
 from django import forms
-from django.contrib.auth.models import User
-from PIL import Image
+
+from tutorial.models import BaseModel
 from .models import Profile
 from django.utils.translation import ugettext as _
 from django.contrib.auth.forms import PasswordChangeForm
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -33,3 +33,4 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 'placeholder': self.fields[field].label,
                 'class': 'form-control'
             }
+

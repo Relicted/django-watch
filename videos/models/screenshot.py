@@ -29,7 +29,13 @@ class VideoScreenshot(BaseModel):
              update_fields=None):
         shot = Image.open(self.shot)
         shot_output = BytesIO()
-        shot.save(shot_output, format='JPEG', quality=80)
+
+        if self.shot.name.split('.')[-1] == 'jpg':
+            ext = 'jpeg'
+        else:
+            ext = self.shot.name.split('.')[-1]
+
+        shot.save(shot_output, format=f'{ext}', quality=80)
         shot_output.seek(0)
 
         self.shot = InMemoryUploadedFile(

@@ -24,7 +24,6 @@ class VideoScreenshotTabularInline(admin.TabularInline):
 
 
 class VideoAdmin(admin.ModelAdmin):
-    form = CreateVideoItemForm
     list_display = ['original_title', 'content', 'id']
     inlines = [
         VideoScreenshotTabularInline,

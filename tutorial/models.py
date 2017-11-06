@@ -47,4 +47,3 @@ class LikeDislike(BaseModel):
     class Meta:
         app_label = 'accounts'
 
-

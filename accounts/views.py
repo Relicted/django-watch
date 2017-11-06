@@ -61,7 +61,6 @@ def account(request):
             messages.success(request, 'Your password updated')
             return redirect('settings:account')
         else:
-            messages.error(request, 'Please correct the error below.')
             return render(request,
                           'accounts/settings.html',
                           locals())

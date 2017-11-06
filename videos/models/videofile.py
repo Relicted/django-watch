@@ -11,6 +11,10 @@ class VideoFile(BaseModel):
     name = models.CharField(
         max_length=150,
         null=True)
+    episode = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
     video = models.ForeignKey(
         'Video',
         on_delete=models.CASCADE,
